@@ -1,0 +1,59 @@
+@(message: String, students: Seq[Student], courses: Seq[Course])
+
+  @defining(play.core.PlayVersion.current) { version =>
+      <h1>Students</h1>
+      <table class="things-table" id="table-students">
+        <tr>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Age</th>
+          <th>Is Insolent?</th>
+          <th></th>
+        </tr>
+        @for(student <- students) {
+          <tr id="row-student-@student.id" studentId="@student.id">
+            <td class="student-first-name">@student.firstName</td>
+            <td class="student-last-name">@student.lastName</td>
+            <td class="student-age">@student.age</td>
+            <td class="student-is-insolent">@student.isInsolent</td>
+            <td><button onclick="deleteStudent(@student.id, '@student.firstName')">Delete</button></td>
+          </tr>
+        }
+      </table>
+
+      <h1>Courses</h1>
+      <table class="things-table" id="table-courses">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Has apero?</th>
+          <th></th>
+        </tr>
+        @for(course <- courses) {
+          <tr id="row-course-@course.id" courseId="@course.id">
+              <td class="course-name">@course.name</td>
+              <td class="course-description">@course.description</td>
+              <td class="course-has-apero" realValue="@course.hasApero match {
+                  case Some(apero) => {@apero}
+                  case None => {null}
+              }">
+              @course.hasApero match {
+                  case Some(apero) => {
+                      @apero
+                  }
+                  case None => {
+                      <i>NULL</i>
+                  }
+              }
+              </td>
+              <td><button onclick="deleteCourse(@course.id, '@course.name')">Delete</button></td>
+          </tr>
+        }
+      </table>
+
+      <p>
+        Add students and even more with the REST API!
+      </p>
+      <br/>
+      <a href="@routes.HomeController.about()">About...</a>
+  }
