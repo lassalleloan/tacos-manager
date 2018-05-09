@@ -15,11 +15,11 @@ trait CoursesComponent {
   import profile.api._
 
   // This class convert the database's courses table in a object-oriented entity: the Course model.
-  class CoursesTable(tag: Tag) extends Table[Course](tag, "COURSES") {
-    def id = column[Long]("ID", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
-    def name = column[String]("NAME")
-    def description = column[String]("DESCRIPTION")
-    def hasApero = column[Option[Boolean]]("HASAPERO") // Optional field
+  class CoursesTable(tag: Tag) extends Table[Course](tag, "courses") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
+    def name = column[String]("name")
+    def description = column[String]("description")
+    def hasApero = column[Option[Boolean]]("hasApero") // Optional field
 
     // Map the attributes with the model; the ID is optional.
     def * = (id.?, name, description, hasApero) <> (Course.tupled, Course.unapply)

@@ -14,12 +14,12 @@ trait StudentsComponent {
   import profile.api._
 
   // This class convert the database's students table in a object-oriented entity: the Student model.
-  class StudentsTable(tag: Tag) extends Table[Student](tag, "STUDENTS") {
+  class StudentsTable(tag: Tag) extends Table[Student](tag, "students") {
     def id = column[Long]("ID", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
-    def firstName = column[String]("FIRSTNAME")
-    def lastName = column[String]("LASTNAME")
-    def age = column[Int]("AGE")
-    def isInsolent = column[Boolean]("ISINSOLENT")
+    def firstName = column[String]("firstname")
+    def lastName = column[String]("lastname")
+    def age = column[Int]("age")
+    def isInsolent = column[Boolean]("isInsolent")
 
     // Map the attributes with the model; the ID is optional.
     def * = (id.?, firstName, lastName, age, isInsolent) <> (Student.tupled, Student.unapply)

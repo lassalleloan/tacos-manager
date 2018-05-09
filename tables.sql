@@ -4,32 +4,29 @@ USE los_tacos;
 
 CREATE TABLE viande (
 	id INT(10) AUTO_INCREMENT,
-    nom VARCHAR(32) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
 	provenance VARCHAR(32) NOT NULL,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE sauce (
 	id INT(10) AUTO_INCREMENT,
-    nom VARCHAR(32) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
 	puissance INT(3) NOT NULL,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE ingredient (
 	id INT(10) AUTO_INCREMENT,
-    nom VARCHAR(32) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
 	provenance VARCHAR(32) NOT NULL,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE tacos (
 	id INT(10) AUTO_INCREMENT,
-    nom VARCHAR(32) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
     prix DOUBLE NOT NULL,
-    viande_fk INT(10) NOT NULL,
-    sauce_fk INT(10),
-    ingredient_fk INT(10),
     PRIMARY KEY (id)
 );
 
@@ -59,7 +56,7 @@ CREATE TABLE asso_ingredient_tacos (
 
 CREATE TABLE boisson (
 	id INT(10) AUTO_INCREMENT,
-    nom VARCHAR(32) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
     decilitres INT(4) NOT NULL,
     prix DOUBLE NOT NULL,
     PRIMARY KEY (id)
@@ -68,7 +65,7 @@ CREATE TABLE boisson (
 
 CREATE TABLE frite (
 	id INT(10) AUTO_INCREMENT,
-    nom VARCHAR(32) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
     portion INT(10) NOT NULL, -- en grammes
     prix DOUBLE NOT NULL,
     PRIMARY KEY (id)
@@ -95,8 +92,8 @@ CREATE TABLE personne (
 
 CREATE TABLE commande (
 	id INT(20) AUTO_INCREMENT,
-    dateCommande DATE,
-    heureCommande INT(11) NOT NULL,
+    dateCommande CHAR(10),
+    heureCommande CHAR(5),
     prix DOUBLE NOT NULL DEFAULT 0.0,
     personne_fk INT(12) NOT NULL,
     PRIMARY KEY (id),
