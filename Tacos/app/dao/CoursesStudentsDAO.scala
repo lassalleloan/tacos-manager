@@ -14,10 +14,10 @@ trait CoursesStudentsComponent extends CoursesComponent with StudentsComponent {
   import profile.api._
 
   // This class convert the database's students table in a object-oriented entity: the Student model.
-  class CoursesStudentsTable(tag: Tag) extends Table[CourseStudent](tag, "COURSES_STUDENTS") {
+  class CoursesStudentsTable(tag: Tag) extends Table[CourseStudent](tag, "courses_students") {
     def id = column[Long]("ID", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
-    def courseId = column[Long]("COURSE_ID")
-    def studentId = column[Long]("STUDENT_ID")
+    def courseId = column[Long]("course_id")
+    def studentId = column[Long]("student_id")
 
     // Map the attributes with the model; the ID is optional.
     def * = (id.?, courseId, studentId) <> (CourseStudent.tupled, CourseStudent.unapply)
