@@ -74,19 +74,6 @@ CREATE TABLE frite (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE menu (
-	id INT(11) AUTO_INCREMENT,
-    nom VARCHAR(32) NOT NULL,
-    tacos_fk INT(10) NOT NULL,
-    boisson_fk INT(10) NOT NULL,
-    frite_fk INT(10) NOT NULL,
-    prix DOUBLE NOT NULL DEFAULT 0.0,
-    PRIMARY KEY (id),
-    FOREIGN KEY (tacos_fk) REFERENCES tacos (id) ON DELETE CASCADE,
-    FOREIGN KEY (boisson_fk) REFERENCES boisson (id) ON DELETE CASCADE,
-    FOREIGN KEY (frite_fk) REFERENCES frite (id) ON DELETE CASCADE
-);
-
 CREATE TABLE rolePersonne (
 	id INT(4) AUTO_INCREMENT,
 	nom VARCHAR(32) NOT NULL,
@@ -110,15 +97,36 @@ CREATE TABLE commande (
 	id INT(20) AUTO_INCREMENT,
     dateCommande DATE,
     heureCommande INT(11) NOT NULL,
+    prix DOUBLE NOT NULL DEFAULT 0.0,
     personne_fk INT(12) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (personne_fk) REFERENCES personne (id)
 );
 
-CREATE TABLE asso_menu_commande (
-	menu_pk_fk INT(11),
+
+CREATE TABLE asso_commande_tacos (
     commande_pk_fk INT(20),
-    PRIMARY KEY (menu_pk_fk, commande_pk_fk),
-    FOREIGN KEY (menu_pk_fk) REFERENCES menu (id),
-    FOREIGN KEY (commande_pk_fk) REFERENCES commande (id)
+    tacos_pk_fk INT(10),
+    quantite INT(7) NOT NULL DEFAULT 1,
+    PRIMARY KEY (commande_pk_fk, tacos_pk_fk),
+    FOREIGN KEY (commande_pk_fk) REFERENCES commande (id),
+    FOREIGN KEY (tacos_pk_fk) REFERENCES tacos (id) ON DELETE CASCADE
+);
+
+CREATE TABLE asso_commande_boisson (
+    commande_pk_fk INT(20),
+    boisson_pk_fk INT(10),
+    quantite INT(7) NOT NULL DEFAULT 1,
+    PRIMARY KEY (commande_pk_fk, boisson_pk_fk),
+    FOREIGN KEY (commande_pk_fk) REFERENCES commande (id),
+    FOREIGN KEY (boisson_pk_fk) REFERENCES boisson (id) ON DELETE CASCADE
+);
+
+CREATE TABLE asso_commande_frite (
+    commande_pk_fk INT(20),
+    frite_pk_fk INT(10),
+    quantite INT(7) NOT NULL DEFAULT 1,
+    PRIMARY KEY (commande_pk_fk, frite_pk_fk),
+    FOREIGN KEY (commande_pk_fk) REFERENCES commande (id),
+    FOREIGN KEY (frite_pk_fk) REFERENCES frite (id) ON DELETE CASCADE
 );
