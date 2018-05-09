@@ -5,7 +5,7 @@
 
 # Pages
 GET     /                           controllers.HomeController.index
-GET     /tacos                      controllers.tacosHomeController.tacos
+GET     /tacosHome                  controllers.tacosHomeController.tacosHome
 GET     /about                      controllers.HomeController.about
 # REST API endpoints
 GET     /students                   controllers.StudentsController.getStudents

@@ -15,11 +15,11 @@ class tacosHomeController @Inject()(cc: ControllerComponents) extends AbstractCo
 
   val title = "Intergalactic TACOS Food"
 
-  /**
-    * Call the "about" html template.
-    */
 
-  def tacos = Action {
-    Ok(views.html.tacos(title))
+  /**
+    * Call the "tacos_home" html template.
+    */
+  def tacosHome = Action {
+    Ok(views.html.tacos_home(title))
   }
 }
