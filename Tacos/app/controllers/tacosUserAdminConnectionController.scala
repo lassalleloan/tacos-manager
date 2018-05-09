@@ -11,15 +11,15 @@ import play.api.mvc._
   * application's home page.
   */
 @Singleton
-class tacosShowOrdersController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class tacosUserAdminConnectionController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
 
-  val title = "Daily Orders Review TACOS Food"
+  val title = "Login TACOS Food"
 
 
   /**
     * Call the "tacos_home" html template.
     */
-  def tacosAdminShowOrders = Action {
-    Ok(views.html.tacos_admin_show_orders(title))
+  def tacosUserAdminConnection = Action {
+    Ok(views.html.tacos_user_admin_connection(title))
   }
 }
