@@ -10,6 +10,7 @@ GET     /tacosAdminManagement       controllers.tacosManagementController.tacosA
 GET     /tacosAdminShowOrders       controllers.tacosShowOrdersController.tacosAdminShowOrders
 GET     /tacosUserAdminConnection   controllers.tacosUserAdminConnectionController.tacosUserAdminConnection
 GET     /tacosUserCreateAccount     controllers.tacosUserCreateAccountController.tacosUserCreateAccount
+POST    /tacosUserCreateAccount     controllers.tacosUserCreateAccountController.createUser
 GET     /tacosUserOrder             controllers.tacosUserOrderController.tacosUserOrder
 GET     /about                      controllers.HomeController.about
 # REST API endpoints

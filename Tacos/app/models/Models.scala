@@ -10,10 +10,12 @@ case class Student(id: Option[Long], firstName: String, lastName: String, age: I
 // Represent a database's course <- >student entry.
 case class CourseStudent(id: Option[Long], courseId: Long, studentId: Long)
 
-case class Person(id: Option[Long], name: String, firstName: String, phone: String, mail: String,
-                  login: String, password: String, rolePerson: Long)
+case class User(id: Option[Long], firstName: String, lastName: String, phone: String, email: String,
+                  login: String, password: String, userRole: Long)
 
-case class RolePerson(id: Option[Long], name: String)
+case class Role(id: Option[Long], name: String)
+
+case class UserRole(userId: Long, roleId: Long)
 
 case class Order(id: Option[Long], dateOrder: String, hourOrder: String, price: Double, person: Long)
 
