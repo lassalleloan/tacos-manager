@@ -21,12 +21,11 @@ trait UserComponent {
     def lastName = column[String]("lastName")
     def phone = column[String]("phone")
     def email = column[String]("email")
-    def login = column[String]("login")
     def password = column[String]("password")
     def userRole = column[Long]("userRole")
 
     // Map the attributes with the model; the ID is optional.
-    def * = (id.?, firstName, lastName, phone, email, login, password, userRole) <> (User.tupled, User.unapply)
+    def * = (id.?, firstName, lastName, phone, email, password, userRole) <> (User.tupled, User.unapply)
   }
 
 }

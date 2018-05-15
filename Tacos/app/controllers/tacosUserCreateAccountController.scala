@@ -26,7 +26,6 @@ class tacosUserCreateAccountController @Inject()(cc: ControllerComponents, userD
       (JsPath \ "lastName").write[String] and
       (JsPath \ "phone").write[String] and
       (JsPath \ "email").write[String] and
-      (JsPath \ "login").write[String] and
       (JsPath \ "password").write[String] and
       (JsPath \ "userRole").write[Long]
     )(unlift(User.unapply))
@@ -37,7 +36,6 @@ class tacosUserCreateAccountController @Inject()(cc: ControllerComponents, userD
       (JsPath \ "lastName").read[String](minLength[String](3)) and
       (JsPath \ "phone").read[String] and
       (JsPath \ "email").read[String](minLength[String](3)) and
-      (JsPath \ "login").read[String](minLength[String](3)) and
       (JsPath \ "password").read[String](minLength[String](3)) and
       (JsPath \ "userRole").read[Long]
     )(User.apply _)
