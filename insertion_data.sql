@@ -443,39 +443,41 @@ VALUES ("Client");
 
 -- ================================================================================
 
-INSERT INTO personne (nom, prenom, telephone, mail, login, mdp, rolePersonne_fk)
-VALUES ("Marco", "Adrien", "0792651478", "adrien.marco@heig-vd.ch", "marcadri", "Burrito4ever!", 
+INSERT INTO personne (nom, prenom, telephone, mail, mdp, rolePersonne_fk)
+VALUES ("Marco", "Adrien", "0792651478", "adrien.marco@heig-vd.ch", "Burrito4ever!", 
 	(SELECT id
     FROM rolePersonne
     WHERE nom = "Administrateur")
 );
 
-INSERT INTO personne (nom, prenom, mail, login, mdp, rolePersonne_fk)
-VALUES ("Lassalle", "Loan", "loan.lassalle@heig-vd.ch", "lassloan", "Tacos4ever!", 
+INSERT INTO personne (nom, prenom, mail, mdp, rolePersonne_fk)
+VALUES ("Lassalle", "Loan", "loan.lassalle@heig-vd.ch", "Tacos4ever!", 
 	(SELECT id
     FROM rolePersonne
     WHERE nom = "Client")
 );
 
-INSERT INTO personne (nom, prenom, mail, login, mdp, rolePersonne_fk)
-VALUES ("Brêchet", "Julien", "julien.brechet@heig-vd.ch", "brecjuli", "Miam4ever!", 
+INSERT INTO personne (nom, prenom, mail, mdp, rolePersonne_fk)
+VALUES ("Brêchet", "Julien", "julien.brechet@heig-vd.ch", "Miam4ever!", 
 	(SELECT id
     FROM rolePersonne
     WHERE nom = "Client")
 );
+
+-- ================================================================================
 
 INSERT INTO commande (dateCommande, heureCommande, prix, personne_fk)
 VALUES ("2018-05-09", "12:55", 33.9,
 	(SELECT id
     FROM personne
-    WHERE login = "lassloan")
+    WHERE mail = "loan.lassalle@heig-vd.ch")
 );
 
 INSERT INTO commande (dateCommande, heureCommande, prix, personne_fk)
 VALUES ("2018-05-09", "11:55", 11.8,
 	(SELECT id
     FROM personne
-    WHERE login = "brecjuli")
+    WHERE mail = "julien.brechet@heig-vd.ch")
 );
 
 -- ================================================================================
@@ -511,6 +513,8 @@ VALUES (1,
     WHERE nom = "Potatoes 1kg"),
     1
 );
+
+-- ================================================================================
 
 INSERT INTO asso_commande_tacos (commande_pk_fk, tacos_pk_fk, quantite)
 VALUES (2,
