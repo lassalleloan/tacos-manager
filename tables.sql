@@ -82,8 +82,7 @@ CREATE TABLE personne (
     nom VARCHAR(32) NOT NULL,
     prenom VARCHAR(32) NOT NULL,
     telephone VARCHAR(32),
-    mail VARCHAR(32),
-    login VARCHAR(16) NOT NULL,
+    mail VARCHAR(32) UNIQUE NOT NULL,
     mdp VARCHAR(64) NOT NULL, -- SHA-256
     rolePersonne_fk INT(4) NOT NULL,
     PRIMARY KEY (id),
