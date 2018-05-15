@@ -7,6 +7,21 @@
 *@
 @main(message) {
     @defining(play.core.PlayVersion.current) { version =>
-        <h1>user connection</h1>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/register.css")">
+        <div class="signup-form">
+            <form action="@routes.tacosUserAdminConnectionController.checkConnection()" method="post">
+                <h2>Connexion</h2>
+                <p class="hint-text">Vous possédez déjà un compte. Connectez-vous pour commander votre repas.</p>
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Email" required="required">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Mot de passe" required="required">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg btn-block">Soumettre</button>
+                </div>
+            </form>
+        </div>
     }
 }

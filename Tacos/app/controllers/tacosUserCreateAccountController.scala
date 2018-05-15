@@ -17,7 +17,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 @Singleton
 class tacosUserCreateAccountController @Inject()(cc: ControllerComponents, userDAO: UserDAO) extends AbstractController(cc) {
 
-  val title = "User Create Account TACOS Food"
+  val title = "Intergalactic TACOS Food"
 
   // Refer to the StudentsController class in order to have more explanations.
   implicit val userToJson: Writes[User] = (

@@ -20,7 +20,7 @@ trait UserComponent {
     def firstName = column[String]("firstName")
     def lastName = column[String]("lastName")
     def phone = column[String]("phone")
-    def email = column[String]("email"
+    def email = column[String]("email")
     def login = column[String]("login")
     def password = column[String]("password")
     def userRole = column[Long]("userRole")
@@ -52,6 +52,10 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
   /** Retrieve a user from the id. */
   def findById(id: Long): Future[Option[User]] =
     db.run(users.filter(_.id === id).result.headOption)
+
+  /** Retrieve a user from the email. */
+  def findByEmail(email: String): Future[Option[User]] =
+    db.run(users.filter(_.email === email).result.headOption)
 
   /** Insert a new user, then return it. */
   def insert(user: User): Future[User] = {

@@ -16,6 +16,7 @@ class tacosHomeController @Inject()(cc: ControllerComponents) extends AbstractCo
 
   val title = "Intergalactic TACOS Food"
 
+
   /**
     * Call the "tacos_home" html template.
     */

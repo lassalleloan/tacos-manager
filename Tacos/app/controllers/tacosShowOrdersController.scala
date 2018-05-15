@@ -13,7 +13,7 @@ import play.api.mvc._
 @Singleton
 class tacosShowOrdersController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
 
-  val title = "Daily Orders Review TACOS Food"
+  val title = "Intergalactic TACOS Food"
 
 
   /**
