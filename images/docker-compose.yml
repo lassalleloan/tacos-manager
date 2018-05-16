@@ -1,0 +1,16 @@
+version: '2'
+services:
+  mysql:
+    build: ./mysql
+    environment:
+     - MYSQL_ROOT_PASSWORD=root
+    ports:
+     - "3306:3306"
+  phpmyadmin:
+    build: ./phpmyadmin
+    environment:
+     - MYSQL_ROOT_PASSWORD=root
+    ports:
+     - "6060:80"
+    links:
+     - mysql:db
