@@ -16,12 +16,12 @@ trait UserComponent extends RoleUserComponent {
   // This class convert the database's user table in a object-oriented entity: the User model.
   class UserTable(tag: Tag) extends Table[User](tag, "personne") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
-    def firstName = column[String]("firstName")
-    def lastName = column[String]("lastName")
-    def phone = column[String]("phone")
-    def email = column[String]("email", O.Unique) // Unique
-    def password = column[String]("password")
-    def roleUser = column[Long]("roleUser")
+    def firstName = column[String]("prenom")
+    def lastName = column[String]("nom")
+    def phone = column[String]("telephone")
+    def email = column[String]("mail", O.Unique) // Unique
+    def password = column[String]("mdp")
+    def roleUser = column[Long]("rolePersonne_fk")
 
     // Map the attributes with the model. Phone is optional.
     def * = (id, firstName, lastName, phone.?, email, password, roleUser) <> (User.tupled, User.unapply)

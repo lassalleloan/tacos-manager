@@ -15,9 +15,9 @@ trait FryComponent {
   // This class convert the database's fry table in a object-oriented entity: the Fry model.
   class FryTable(tag: Tag) extends Table[Fry](tag, "frite") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
-    def name = column[String]("name")
+    def name = column[String]("nom")
     def portion = column[Int]("portion")
-    def price = column[Double]("price")
+    def price = column[Double]("prix")
 
     // Map the attributes with the model.
     def * = (id, name, portion, price) <> (Fry.tupled, Fry.unapply)

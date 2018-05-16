@@ -16,10 +16,10 @@ trait OrderComponent extends UserComponent {
   // This class convert the database's order table in a object-oriented entity: the Order model.
   class OrderTable(tag: Tag) extends Table[Order](tag, "commande") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
-    def dateOrder = column[String]("dateOrder")
-    def hourOrder = column[String]("hourOrder")
-    def price = column[Double]("price")
-    def user = column[Long]("user")
+    def dateOrder = column[String]("dateCommande")
+    def hourOrder = column[String]("heureCommande")
+    def price = column[Double]("prix")
+    def user = column[Long]("personne_fk")
 
     // Map the attributes with the model.
     def * = (id, dateOrder.?, hourOrder, price, user) <> (Order.tupled, Order.unapply)
