@@ -16,7 +16,7 @@ case class OrderDrink(orderId: Long, drinkId: Long, quantity: Int)
 
 case class Tacos(id: Long, name: String, price: Double)
 
-case class OrderTacos(orderId: Long, tacosId: Long)
+case class OrderTacos(orderId: Long, tacosId: Long, quantity: Int)
 
 case class Sauce(id: Long, name: String, spicy: Int)
 
