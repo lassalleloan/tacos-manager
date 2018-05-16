@@ -1,11 +1,11 @@
 package dao
 
-import scala.concurrent.Future
 import javax.inject.{Inject, Singleton}
 import models.User
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
-import scala.concurrent.ExecutionContext
+
+import scala.concurrent.{ExecutionContext, Future}
 
 // We use a trait component here in order to share the user User class with other DAO, thanks to the inheritance.
 trait UserComponent extends RoleUserComponent {
@@ -57,13 +57,13 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
 
   /** Insert a new user, then return it. */
   def insert(user: User): Future[User] = {
-    val insertQuery = users returning users.map(_.id) into ((user, id) => user.copy(Some(id)))
+    val insertQuery = users returning users.map(_.id) into ((user, id) => user.copy(id))
     db.run(insertQuery += user)
   }
 
   /** Update a user, then return an integer that indicate if the user was found (1) or not (0). */
   def update(id: Long, user: User): Future[Int] = {
-    val userToUpdate: User = user.copy(Some(id))
+    val userToUpdate: User = user.copy(id)
     db.run(users.filter(_.id === id).update(userToUpdate))
   }
 

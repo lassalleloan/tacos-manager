@@ -1,11 +1,8 @@
 package controllers
 
-//import dao.{CoursesDAO, StudentsDAO}
 import javax.inject._
-
 import play.api.mvc._
 import play.api.routing.JavaScriptReverseRouter
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
@@ -16,6 +13,12 @@ class tacosHomeController @Inject()(cc: ControllerComponents) extends AbstractCo
 
   val title = "Intergalactic TACOS Food"
 
+  def javascriptRoutes = Action { implicit request =>
+    Ok(
+      JavaScriptReverseRouter("jsRoutes")(
+      )
+    ).as("text/javascript")
+  }
 
   /**
     * Call the "tacos_home" html template.
@@ -23,4 +26,5 @@ class tacosHomeController @Inject()(cc: ControllerComponents) extends AbstractCo
   def tacosHome = Action {
     Ok(views.html.tacos_home(title))
   }
+
 }

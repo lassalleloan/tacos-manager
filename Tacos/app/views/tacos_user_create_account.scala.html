@@ -9,31 +9,31 @@
     @defining(play.core.PlayVersion.current) { version =>
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/register.css")">
         <div class="signup-form">
-            <form action="@routes.tacosUserCreateAccountController.createUser" method="post">
-                <h2>Inscription</h2>
-                <p class="hint-text">Pour commander, il suffit de se créer un compte. C'est gratuit et ne prend qu'une minute.</p>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-xs-6"><input type="text" class="form-control" name="firstName" placeholder="Nom" required="required"></div>
-                        <div class="col-xs-6"><input type="text" class="form-control" name="lastName" placeholder="Prénom" required="required"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="Email" required="required">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder="Mot de passe" required="required">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="confirmPassword" placeholder="Confirmer mot de passe" required="required">
-                </div>
-                <div class="form-group">
-                    <label class="checkbox-inline"><input type="checkbox" required="required"> J'accepte <a href="#">les conditions</a> </label>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-lg btn-block">Soumettre</button>
-                </div>
-            </form>
+            @*<form action="@routes.tacosUserCreateAccountController.createUser" method="post">*@
+                @*<h2>Inscription</h2>*@
+                @*<p class="hint-text">Pour commander, il suffit de se créer un compte. C'est gratuit et ne prend qu'une minute.</p>*@
+                @*<div class="form-group">*@
+                    @*<div class="row">*@
+                        @*<div class="col-xs-6"><input type="text" class="form-control" name="firstName" placeholder="Nom" required="required"></div>*@
+                        @*<div class="col-xs-6"><input type="text" class="form-control" name="lastName" placeholder="Prénom" required="required"></div>*@
+                    @*</div>*@
+                @*</div>*@
+                @*<div class="form-group">*@
+                    @*<input type="email" class="form-control" name="email" placeholder="Email" required="required">*@
+                @*</div>*@
+                @*<div class="form-group">*@
+                    @*<input type="password" class="form-control" name="password" placeholder="Mot de passe" required="required">*@
+                @*</div>*@
+                @*<div class="form-group">*@
+                    @*<input type="password" class="form-control" name="confirmPassword" placeholder="Confirmer mot de passe" required="required">*@
+                @*</div>*@
+                @*<div class="form-group">*@
+                    @*<label class="checkbox-inline"><input type="checkbox" required="required"> J'accepte <a href="#">les conditions</a> </label>*@
+                @*</div>*@
+                @*<div class="form-group">*@
+                    @*<button type="submit" class="btn btn-success btn-lg btn-block">Soumettre</button>*@
+                @*</div>*@
+            @*</form>*@
             <div class="text-center">Vous possédez déjà un compte? <a href="@routes.tacosUserAdminConnectionController.tacosUserAdminConnection()">Connectez-vous</a></div>
         </div>
     }
