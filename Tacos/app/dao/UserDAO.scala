@@ -2,37 +2,36 @@ package dao
 
 import scala.concurrent.Future
 import javax.inject.{Inject, Singleton}
-import models.{User, Role}
-import play.api.db.slick.DatabaseConfigProvider
-import play.api.db.slick.HasDatabaseConfigProvider
+import models.User
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
-
 import scala.concurrent.ExecutionContext
 
+// We use a trait component here in order to share the user User class with other DAO, thanks to the inheritance.
 trait UserComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import profile.api._
 
   // This class convert the database's user table in a object-oriented entity: the User model.
-  class UserTable(tag: Tag) extends Table[User](tag, "user") {
+  class UserTable(tag: Tag) extends Table[User](tag, "personne") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def firstName = column[String]("firstName")
     def lastName = column[String]("lastName")
     def phone = column[String]("phone")
-    def email = column[String]("email")
+    def email = column[String]("email", O.Unique) // Unique
     def password = column[String]("password")
     def roleUser = column[Long]("roleUser")
 
-    // Map the attributes with the model; the ID is optional.
-    def * = (id.?, firstName, lastName, phone, email, password, roleUser) <> (User.tupled, User.unapply)
+    // Map the attributes with the model. Phone is optional.
+    def * = (id, firstName, lastName, phone.?, email, password, roleUser) <> (User.tupled, User.unapply)
   }
 
 }
 
 // This class contains the object-oriented list of users and offers methods to query the data.
 // A DatabaseConfigProvider is injected through dependency injection; it provides a Slick type bundling a database and
-// driver. The class extends the user' query table and loads the JDBC profile configured in the application's
+// driver. The class extends the user query table and loads the JDBC profile configured in the application's
 // configuration file.
 @Singleton
 class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
@@ -44,7 +43,7 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
 
   /** Retrieve the list of users */
   def list(): Future[Seq[User]] = {
-    val query = users.sortBy(s => (s.firstName, s.lastName))
+    val query = users.sortBy(s => (s.lastName, s.firstName))
     db.run(query.result)
   }
 

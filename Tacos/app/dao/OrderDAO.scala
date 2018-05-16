@@ -1,0 +1,35 @@
+package dao
+
+import scala.concurrent.Future
+import javax.inject.{Inject, Singleton}
+import models.Order
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import slick.jdbc.JdbcProfile
+import scala.concurrent.{ExecutionContext, Future}
+
+// We use a trait component here in order to share the Order class with other DAO, thanks to the inheritance.
+trait RoleUserComponent extends UserComponent {
+  self: HasDatabaseConfigProvider[JdbcProfile] =>
+
+  import profile.api._
+
+  // This class convert the database's order table in a object-oriented entity: the Order model.
+  class OrderTable(tag: Tag) extends Table[Order](tag, "commande") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
+    def dateOrder = column[String]("dateOrder")
+
+    def hourOrder = column[String]("hourOrder")
+
+    def price = column[Double]("price")
+
+    def user = column[Long]("user")
+
+    // Map the attributes with the model.
+    def * = (id, dateOrder.?, hourOrder, price, user) <> (User.tupled, User.unapply)
+  }
+}
+
+// This class contains the object-oriented list of users and offers methods to query the data.
+// A DatabaseConfigProvider is injected through dependency injection; it provides a Slick type bundling a database and
+// driver. The class extends the user query table and loads the JDBC profile configured in the application's
+// configuration file.

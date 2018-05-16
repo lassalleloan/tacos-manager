@@ -14,7 +14,7 @@ case class User(id: Option[Long], firstName: String, lastName: String, phone: St
 
 case class RoleUser(id: Option[Long], name: String)
 
-case class Order(id: Option[Long], dateOrder: String, hourOrder: String, price: Double, person: Long)
+case class Order(id: Option[Long], dateOrder: String, hourOrder: String, price: Double, user: Long)
 
 case class Fry(id: Option[Long], name: String, portion: Int, price: Double)
 
