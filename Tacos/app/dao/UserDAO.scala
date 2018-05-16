@@ -22,10 +22,10 @@ trait UserComponent {
     def phone = column[String]("phone")
     def email = column[String]("email")
     def password = column[String]("password")
-    def userRole = column[Long]("userRole")
+    def roleUser = column[Long]("roleUser")
 
     // Map the attributes with the model; the ID is optional.
-    def * = (id.?, firstName, lastName, phone, email, password, userRole) <> (User.tupled, User.unapply)
+    def * = (id.?, firstName, lastName, phone, email, password, roleUser) <> (User.tupled, User.unapply)
   }
 
 }
@@ -36,7 +36,7 @@ trait UserComponent {
 // configuration file.
 @Singleton
 class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
-  extends UserComponent with RoleComponent with UserRoleComponent with HasDatabaseConfigProvider[JdbcProfile] {
+  extends UserComponent with RoleUserComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
 
   // Get the object-oriented list of users directly from the query table.
