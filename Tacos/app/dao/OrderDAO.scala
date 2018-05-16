@@ -22,7 +22,7 @@ trait OrderComponent extends UserComponent {
     def user = column[Long]("user")
 
     // Map the attributes with the model.
-    def * = (id, dateOrder.?, hourOrder, price, user) <> (User.tupled, User.unapply)
+    def * = (id, dateOrder.?, hourOrder, price, user) <> (Order.tupled, Order.unapply)
   }
 }
 

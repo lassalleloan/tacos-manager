@@ -16,11 +16,11 @@ trait FryComponent {
   class FryTable(tag: Tag) extends Table[Fry](tag, "frite") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def name = column[String]("name")
-    def portion = column[String]("portion")
+    def portion = column[Long]("portion")
     def price = column[Double]("price")
 
     // Map the attributes with the model.
-    def * = (id, name, portion, price) <> (User.tupled, User.unapply)
+    def * = (id, name, portion, price) <> (Fry.tupled, Fry.unapply)
   }
 }
 
