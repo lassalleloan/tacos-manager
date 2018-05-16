@@ -14,11 +14,11 @@ case class Drink(id: Long, name: String, deciliter: Int, price: Double)
 
 case class OrderDrink(orderId: Long, drinkId: Long, quantity: Int)
 
-case class Tacos(id: Option[Long], name: String, price: Double)
+case class Tacos(id: Long, name: String, price: Double)
 
-case class OrderTacos(ordeId: Long, tacosId: Long)
+case class OrderTacos(orderId: Long, tacosId: Long)
 
-case class Sauce(id: Option[Long], name: String, spicy: Int)
+case class Sauce(id: Long, name: String, spicy: Int)
 
 case class TacosSauce(tacosId: Long, sauceId: Long)
 
