@@ -45,7 +45,7 @@ class tacosUserAdminConnectionController @Inject()(cc: ControllerComponents, use
     }
 
     // Just display the entered values
-//    Ok(s"email: '${connectionRequest.email}', password: '${connectionRequest.password}'")
+    //Ok(s"email: '${connectionRequest.email}', password: '${connectionRequest.password}'")
   }
 
   /**

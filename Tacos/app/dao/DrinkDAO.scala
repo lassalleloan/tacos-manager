@@ -1,11 +1,8 @@
 package dao
 
-import scala.concurrent.Future
-import javax.inject.{Inject, Singleton}
 import models.Drink
-import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import play.api.db.slick.HasDatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import scala.concurrent.{ExecutionContext, Future}
 
 trait DrinkComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>

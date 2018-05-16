@@ -4,6 +4,7 @@ import javax.inject.{Inject, Singleton}
 import models.RoleUser
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
+
 import scala.concurrent.{ExecutionContext, Future}
 
 trait RoleUserComponent {

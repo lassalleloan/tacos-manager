@@ -1,11 +1,8 @@
 package dao
 
-import scala.concurrent.Future
-import javax.inject.{Inject, Singleton}
 import models.TacosMeat
-import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import play.api.db.slick.HasDatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import scala.concurrent.{ExecutionContext, Future}
 
 // We use a trait component here in order to share the TacosMeat class with other DAO, thanks to the inheritance.
 trait TacosMeatComponent extends MeatComponent with TacosComponent {

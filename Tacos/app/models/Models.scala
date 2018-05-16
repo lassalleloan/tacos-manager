@@ -1,6 +1,6 @@
 package models
 
-case class User(id: Long, firstName: String, lastName: String, phone: Option[String], email: String, password: String, userRole: Long)
+case class User(id: Option[Long], firstName: String, lastName: String, phone: Option[String], email: String, password: String, roleUser: Long)
 
 case class RoleUser(id: Long, name: String)
 

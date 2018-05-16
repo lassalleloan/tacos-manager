@@ -8,7 +8,11 @@ GET     /                           controllers.tacosHomeController.tacosHome
 GET     /tacosAdminManagement       controllers.tacosManagementController.tacosAdminManagement
 GET     /tacosAdminShowOrders       controllers.tacosShowOrdersController.tacosAdminShowOrders
 GET     /tacosUserAdminConnection   controllers.tacosUserAdminConnectionController.tacosUserAdminConnection
-GET     /tacosUserCreateAccount     controllers.tacosUserCreateAccountController.tacosUserCreateAccount
+
+GET     /signup                     controllers.tacosUserCreateAccountController.tacosUserCreateAccount
++nocsrf # the "nocsrf" modifier tag is used to disable the CSRF filter for the following route in order to avoid an "Unauthorized" error
+POST    /signup                     controllers.tacosUserCreateAccountController.createAccount
+
 GET     /tacosUserOrder             controllers.tacosUserOrderController.tacosUserOrder
 
 +nocsrf # the "nocsrf" modifier tag is used to disable the CSRF filter for the following route in order to avoid an "Unauthorized" error
