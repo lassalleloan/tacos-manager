@@ -12,8 +12,8 @@ trait TacosComponent {
 
   import profile.api._
 
-  // This class convert the database's tacos table in a object-oriented entity: the Tacos model.
-  class FryTable(tag: Tag) extends Table[Tacos](tag, "tacos") {
+  // This class convert the database's "tacos" table in a object-oriented entity: the Tacos model.
+  class TacosTable(tag: Tag) extends Table[Tacos](tag, "tacos") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def name = column[String]("nom")
     def price = column[Double]("prix")

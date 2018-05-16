@@ -13,7 +13,7 @@ trait OrderComponent extends UserComponent {
 
   import profile.api._
 
-  // This class convert the database's order table in a object-oriented entity: the Order model.
+  // This class convert the database's "commande" table in a object-oriented entity: the Order model.
   class OrderTable(tag: Tag) extends Table[Order](tag, "commande") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def dateOrder = column[String]("dateCommande")

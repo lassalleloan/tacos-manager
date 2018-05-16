@@ -12,7 +12,7 @@ trait FryComponent {
 
   import profile.api._
 
-  // This class convert the database's fry table in a object-oriented entity: the Fry model.
+  // This class convert the database's "frite" table in a object-oriented entity: the Fry model.
   class FryTable(tag: Tag) extends Table[Fry](tag, "frite") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def name = column[String]("nom")

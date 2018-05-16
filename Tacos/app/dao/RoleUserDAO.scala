@@ -11,7 +11,7 @@ trait RoleUserComponent {
 
   import profile.api._
 
-  // This class convert the database's roleUser table in a object-oriented entity: the RoleUser model.
+  // This class convert the database's "rolePersonne" table in a object-oriented entity: the RoleUser model.
   class RoleUserTable(tag: Tag) extends Table[RoleUser](tag, "rolePersonne") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def name = column[String]("nom")

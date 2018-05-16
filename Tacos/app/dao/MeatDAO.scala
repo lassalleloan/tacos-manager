@@ -12,8 +12,8 @@ trait MeatComponent {
 
   import profile.api._
 
-  // This class convert the database's meat table in a object-oriented entity: the Meat model.
-  class FryTable(tag: Tag) extends Table[Meat](tag, "viande") {
+  // This class convert the database's "viande" table in a object-oriented entity: the Meat model.
+  class MeatTable(tag: Tag) extends Table[Meat](tag, "viande") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def name = column[String]("nom")
     def origin = column[String]("provenance")

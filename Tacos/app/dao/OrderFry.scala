@@ -13,8 +13,8 @@ trait OrderFryComponent extends OrderComponent with FryComponent {
 
   import profile.api._
 
-  // This class convert the database's orderFry table in a object-oriented entity: the OrderFry model.
-  class OrderTable(tag: Tag) extends Table[OrderFry](tag, "asso_commande_frite") {
+  // This class convert the database's "asso_commande_frite" table in a object-oriented entity: the OrderFry model.
+  class OrderFryTable(tag: Tag) extends Table[OrderFry](tag, "asso_commande_frite") {
     def orderId = column[Long]("commande_pk_fk", O.PrimaryKey) // Primary key
     def fryId = column[Long]("frite_pk_fk", O.PrimaryKey) // Primary key
     def quantity = column[Int]("quantite")

@@ -13,8 +13,8 @@ trait OrderDrinkComponent extends OrderComponent with DrinkComponent {
 
   import profile.api._
 
-  // This class convert the database's orderDrink table in a object-oriented entity: the OrderDrink model.
-  class OrderTable(tag: Tag) extends Table[OrderDrink](tag, "asso_commande_boisson") {
+  // This class convert the database's "asso_commande_boisson" table in a object-oriented entity: the OrderDrink model.
+  class OrderDrinkTable(tag: Tag) extends Table[OrderDrink](tag, "asso_commande_boisson") {
     def orderId = column[Long]("commande_pk_fk", O.PrimaryKey) // Primary key
     def drinkId = column[Long]("boisson_pk_fk", O.PrimaryKey) // Primary key
     def quantity = column[Int]("quantite")
