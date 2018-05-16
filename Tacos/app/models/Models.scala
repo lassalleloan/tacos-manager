@@ -8,7 +8,7 @@ case class Order(id: Long, dateOrder: Option[String], hourOrder: String, price: 
 
 case class Fry(id: Long, name: String, portion: Int, price: Double)
 
-case class OrderFry(orderId: Long, fryId: Long)
+case class OrderFry(orderId: Long, fryId: Long, quantity: Int)
 
 case class Drink(id: Option[Long], name: String, deciliter: Int, price: Double)
 
