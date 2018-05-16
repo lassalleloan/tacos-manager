@@ -2,27 +2,25 @@ package dao
 
 import scala.concurrent.Future
 import javax.inject.{Inject, Singleton}
-import models.Order
+import models.Fry
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 import scala.concurrent.{ExecutionContext, Future}
 
-// We use a trait component here in order to share the Order class with other DAO, thanks to the inheritance.
-trait OrderComponent extends UserComponent {
+trait FryComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import profile.api._
 
-  // This class convert the database's order table in a object-oriented entity: the Order model.
-  class OrderTable(tag: Tag) extends Table[Order](tag, "commande") {
+  // This class convert the database's fry table in a object-oriented entity: the Fry model.
+  class FryTable(tag: Tag) extends Table[Fry](tag, "frite") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
-    def dateOrder = column[String]("dateOrder")
-    def hourOrder = column[String]("hourOrder")
+    def name = column[String]("name")
+    def portion = column[String]("portion")
     def price = column[Double]("price")
-    def user = column[Long]("user")
 
     // Map the attributes with the model.
-    def * = (id, dateOrder.?, hourOrder, price, user) <> (User.tupled, User.unapply)
+    def * = (id, name, portion, price) <> (User.tupled, User.unapply)
   }
 }
 

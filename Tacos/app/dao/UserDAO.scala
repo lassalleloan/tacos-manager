@@ -8,7 +8,7 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.ExecutionContext
 
 // We use a trait component here in order to share the user User class with other DAO, thanks to the inheritance.
-trait UserComponent {
+trait UserComponent extends RoleUserComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import profile.api._
