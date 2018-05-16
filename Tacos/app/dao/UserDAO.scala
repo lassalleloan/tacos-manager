@@ -36,7 +36,7 @@ trait UserComponent {
 // configuration file.
 @Singleton
 class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
-  extends UserComponent with RoleComponent with UserRoleComponent with HasDatabaseConfigProvider[JdbcProfile] {
+  extends UserComponent with UserRoleComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
 
   // Get the object-oriented list of users directly from the query table.
