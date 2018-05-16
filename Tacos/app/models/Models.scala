@@ -1,22 +1,12 @@
 package models
 
-// Represent a database's course entry; the ID is optional because we don't necessary want to have it (for example when
-// we create a new course).
-case class Course(id: Option[Long], name: String, description: String, hasApero: Option[Boolean])
+case class User(id: Long, firstName: String, lastName: String, phone: Option[String], email: String, password: String, userRole: Long)
 
-// Represent a database's student entry.
-case class Student(id: Option[Long], firstName: String, lastName: String, age: Int, isInsolent: Boolean)
+case class RoleUser(id: Long, name: String)
 
-// Represent a database's course <- >student entry.
-case class CourseStudent(id: Option[Long], courseId: Long, studentId: Long)
+case class Order(id: Long, dateOrder: Option[String], hourOrder: String, price: Double, person: Long)
 
-case class User(id: Option[Long], firstName: String, lastName: String, phone: String, email: String, password: String, roleUser: Long)
-
-case class RoleUser(id: Option[Long], name: String)
-
-case class Order(id: Option[Long], dateOrder: String, hourOrder: String, price: Double, user: Long)
-
-case class Fry(id: Option[Long], name: String, portion: Int, price: Double)
+case class Fry(id: Long, name: String, portion: Int, price: Double)
 
 case class OrderFry(orderId: Long, fryId: Long)
 
