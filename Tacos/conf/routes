@@ -4,32 +4,20 @@
 # ~~~~
 
 # Pages
-GET     /                           controllers.HomeController.index
-GET     /tacosHome                  controllers.tacosHomeController.tacosHome
+GET     /                           controllers.tacosHomeController.tacosHome
 GET     /tacosAdminManagement       controllers.tacosManagementController.tacosAdminManagement
 GET     /tacosAdminShowOrders       controllers.tacosShowOrdersController.tacosAdminShowOrders
 GET     /tacosUserAdminConnection   controllers.tacosUserAdminConnectionController.tacosUserAdminConnection
 GET     /tacosUserCreateAccount     controllers.tacosUserCreateAccountController.tacosUserCreateAccount
-POST    /tacosUserCreateAccount     controllers.tacosUserCreateAccountController.createUser
 GET     /tacosUserOrder             controllers.tacosUserOrderController.tacosUserOrder
-GET     /about                      controllers.HomeController.about
 
 +nocsrf # the "nocsrf" modifier tag is used to disable the CSRF filter for the following route in order to avoid an "Unauthorized" error
 POST    /tacosUserAdminConnectionController controllers.tacosUserAdminConnectionController.checkConnection
 
 # REST API endpoints
-GET     /students                   controllers.StudentsController.getStudents
-POST    /students                   controllers.StudentsController.createStudent
-GET     /students/:id               controllers.StudentsController.getStudent(id: Long)
-PUT     /students/:id               controllers.StudentsController.updateStudent(id: Long)
-DELETE  /students/:id               controllers.StudentsController.deleteStudent(id: Long)
-GET     /courses                    controllers.CoursesController.getCourses
-POST    /courses                    controllers.CoursesController.createCourse
-GET     /courses/:id                controllers.CoursesController.getCourse(id: Long)
-PUT     /courses/:id                controllers.CoursesController.updateCourse(id: Long)
-DELETE  /courses/:id                controllers.CoursesController.deleteCourse(id: Long)
+
 # Play's JavaScript routes manager
-GET     /javascriptRoutes           controllers.HomeController.javascriptRoutes
+#GET     /javascriptRoutes           controllers.HomeController.javascriptRoutes
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

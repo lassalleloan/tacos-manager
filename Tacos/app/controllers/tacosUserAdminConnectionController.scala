@@ -1,24 +1,10 @@
 package controllers
 
-//import dao.{CoursesDAO, StudentsDAO}
-import javax.inject._
-
-import dao.UserDAO
-import models.User
-import play.api.libs.json.Json
-import play.api.mvc._
 import dao.UserDAO
 import javax.inject.{Inject, Singleton}
-
-import models.User
-import play.api.libs.functional.syntax._
-import play.api.libs.json.Reads._
-import play.api.libs.json._
-import play.api.mvc.{AbstractController, ControllerComponents}
-import play.api.routing.JavaScriptReverseRouter
-import java.lang.Object
-import play.api.data._
 import play.api.data.Forms._
+import play.api.data._
+import play.api.mvc.{AbstractController, ControllerComponents}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -44,20 +30,23 @@ class tacosUserAdminConnectionController @Inject()(cc: ControllerComponents, use
     )(ConnectionRequest.apply)(ConnectionRequest.unapply)
   )
 
-
-
   /**
     * Called when the user try to post a new connection from the view.
     * See https://scalaplayschool.wordpress.com/2014/08/14/lesson-4-handling-form-data-with-play-forms/ for more information
     */
-  def checkConnection = Action { implicit request =>
+  def checkConnection = Action.async { implicit request =>
     val connectionRequest = connectionForm.bindFromRequest.get
+
+    val optionalUser = userDAO.findByEmail(connectionRequest.email)
+
+    optionalUser.map{
+      case Some(u) => Ok(s"email: '${u.email}', password: '${u.password}'")
+      case None => Ok("Error")
+    }
+
     // Just display the entered values
-    Ok(s"email: '${connectionRequest.email}', password: '${connectionRequest.password}'")
+//    Ok(s"email: '${connectionRequest.email}', password: '${connectionRequest.password}'")
   }
-
-
-
 
   /**
     * Call the "tacos_user_admin_connection" html template.
