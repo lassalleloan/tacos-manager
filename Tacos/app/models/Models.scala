@@ -12,9 +12,7 @@ case class CourseStudent(id: Option[Long], courseId: Long, studentId: Long)
 
 case class User(id: Option[Long], firstName: String, lastName: String, phone: String, email: String, password: String, userRole: Long)
 
-case class Role(id: Option[Long], name: String)
-
-case class UserRole(userId: Long, roleId: Long)
+case class UserRole(id: Option[Long], name: String)
 
 case class Order(id: Option[Long], dateOrder: String, hourOrder: String, price: Double, person: Long)
 

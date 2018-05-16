@@ -15,11 +15,11 @@ trait UserRoleComponent extends UserComponent with RoleComponent {
 
   // This class convert the database's role table in a object-oriented entity: the Role model.
   class UserRoleTable(tag: Tag) extends Table[UserRole](tag, "userRole") {
-    def userId = column[Long]("userId")
-    def roleId = column[Long]("roleId")
+    def id = column[Long]("ID", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
+    def name = column[String]("name")
 
     // Map the attributes with the model
-    def * = (userId, roleId) <> (UserRole.tupled, UserRole.unapply)
+    def * = (id.?, name) <> (UserRole.tupled, UserRole.unapply)
   }
 }
 
@@ -27,11 +27,32 @@ trait UserRoleComponent extends UserComponent with RoleComponent {
 class UserRoleDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends UserRoleComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
 
-  // Get the object-oriented list of users-roles directly from the query table.
-  val usersRoles = TableQuery[UserRoleTable]
+  // Get the object-oriented list of roles directly from the query table.
+  val roles = TableQuery[UserRoleTable]
 
-  /** Retrieve the list of roles sorted by name */
+  /** Retrieve the list of roles */
   def list(): Future[Seq[UserRole]] = {
-    db.run(usersRoles.result)
+    val query = roles.sortBy(_.name)
+    db.run(query.result)
   }
+
+  /** Retrieve a role from the id. */
+  def findById(id: Long): Future[Option[UserRole]] =
+    db.run(roles.filter(_.id === id).result.headOption)
+
+  /** Insert a new role, then return it. */
+  def insert(role: UserRole): Future[UserRole] = {
+    val insertQuery = roles returning roles.map(_.id) into ((role, id) => role.copy(Some(id)))
+    db.run(insertQuery += role)
+  }
+
+  /** Update a role, then return an integer that indicate if the role was found (1) or not (0). */
+  def update(id: Long, role: UserRole): Future[Int] = {
+    val roleToUpdate: UserRole = role.copy(Some(id))
+    db.run(roles.filter(_.id === id).update(roleToUpdate))
+  }
+
+  /** Delete a role, then return an integer that indicate if the role was found (1) or not (0). */
+  def delete(id: Long): Future[Int] =
+    db.run(roles.filter(_.id === id).delete)
 }
