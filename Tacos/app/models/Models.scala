@@ -22,7 +22,7 @@ case class Sauce(id: Option[Long], name: String, spicy: Int)
 
 case class TacosSauce(tacosId: Long, sauceId: Long)
 
-case class Meat(id: Option[Long], name: String, origin: String)
+case class Meat(id: Long, name: String, origin: String)
 
 case class TacosMeat(tacosId: Long, meatId: Long)
 
