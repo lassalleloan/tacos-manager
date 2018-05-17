@@ -474,7 +474,7 @@ VALUES ("2018-05-09", "12:55", 33.9,
 );
 
 INSERT INTO commande (dateCommande, heureCommande, prix, personne_fk)
-VALUES ("2018-05-09", "11:55", 11.8,
+VALUES ("2018-05-10", "11:55", 11.8,
 	(SELECT id
     FROM personne
     WHERE mail = "julien.brechet@heig-vd.ch")
