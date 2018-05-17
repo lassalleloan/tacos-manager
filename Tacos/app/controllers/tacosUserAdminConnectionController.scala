@@ -40,12 +40,26 @@ class tacosUserAdminConnectionController @Inject()(cc: ControllerComponents, use
     val optionalUser = userDAO.findByEmail(connectionRequest.email)
 
     optionalUser.map{
-      case Some(u) => Ok(s"email: '${u.email}', password: '${u.password}'")
-      case None => Ok("Error")
+      //si un user qui correspond au email a été trouvé
+      case Some(u) =>
+        //si le mot de passe correspond
+        if(u.password.equals(connectionRequest.password)){
+          //s'il s'agit d'un admin
+          if(u.roleUser == 1){
+            Ok(views.html.tacos_admin_show_orders(title))
+          }
+          //s'il s'agit d'un user
+          else{
+            Ok(views.html.tacos_user_order(title))
+          }
+        }
+        //si le mot de passe ne correspond pas
+        else{
+          Ok(views.html.tacos_user_admin_connection(title))
+        }
+      //si un user qui correspond au email n'a pas été trouvé
+      case None => Ok(views.html.tacos_user_admin_connection(title))
     }
-
-    // Just display the entered values
-    //Ok(s"email: '${connectionRequest.email}', password: '${connectionRequest.password}'")
   }
 
   /**
