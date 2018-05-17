@@ -1,4 +1,4 @@
-@(message: String)
+@(message: String, userFirstName: String = "", userLastName: String = "")
 
 @*
 * Call the `main` template with two arguments. The first
@@ -11,7 +11,14 @@
         <div class="signup-form">
             <form action="@routes.tacosUserAdminConnectionController.checkConnection()" method="post">
                 <h2>Connexion</h2>
-                <p class="hint-text">Vous possédez déjà un compte. Connectez-vous pour commander votre repas.</p>
+                <p class="hint-text">
+                    @if(userFirstName == "" || userLastName == "") {
+                        Vous possédez déjà un compte. Connectez-vous pour commander votre repas.
+                    } else {
+                        Bonjour @userFirstName @userLastName !<br>
+                        Vous pouvez dès maintenant vous connecter pour commander votre repas.
+                    }
+                </p>
                 <div class="form-group">
                     <input type="email" class="form-control" name="email" placeholder="Email" required="required">
                 </div>

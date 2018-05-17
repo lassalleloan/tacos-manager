@@ -9,6 +9,7 @@ import play.api.libs.json.Json
 import play.api.mvc.{AbstractController, ControllerComponents}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
@@ -76,13 +77,7 @@ class tacosUserCreateAccountController @Inject()(cc: ControllerComponents, userD
     val createdUser = userDAO.insert(user)
 
     createdUser.map(u =>
-      Ok(
-        Json.obj(
-          "status" -> "OK",
-          "id" -> u.id,
-          "message" -> ("Student '" + u.firstName + " " + u.lastName + "' saved.")
-        )
-      )
+      Ok(views.html.tacos_user_admin_connection(title, u.firstName, u.lastName))
     )
   }
 
