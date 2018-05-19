@@ -8,11 +8,11 @@
 @main(message) {
     @defining(play.core.PlayVersion.current) { version =>
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/register.css")">
+        <div class="text-center"><p style="color:red"><strong>@errorMessage</strong></p></div>
         <div class="signup-form">
             <form action="@routes.tacosUserCreateAccountController.createAccount()" method="post">
-                @errorMessage
                 <h2>Inscription</h2>
-                <p class="hint-text">Pour commander, il suffit de se créer un compte. C'est gratuit et ne prend qu'une minute.</p>
+                <p class="hint-text">Pour commander, il vous suffit de créer un compte. C'est gratuit et cela ne prend qu'une minute.</p>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-xs-6"><input type="text" class="form-control" name="firstName" placeholder="Nom" required="required"></div>
@@ -31,10 +31,7 @@
                     <input type="password" class="form-control" name="confirmPassword" placeholder="Confirmer mot de passe" required="required">
                 </div>
                 <div class="form-group">
-                    <label class="checkbox-inline"><input type="checkbox" required="required"> J'accepte <a href="#">les conditions</a></label>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-lg btn-block">Soumettre</button>
+                    <button type="submit" class="btn btn-success btn-lg btn-block">Créer le compte</button>
                 </div>
             </form>
             <div class="text-center">Vous possédez déjà un compte? <a href="@routes.tacosUserAdminConnectionController.tacosUserAdminConnection()">Connectez-vous</a></div>

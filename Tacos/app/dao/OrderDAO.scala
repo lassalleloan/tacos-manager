@@ -48,7 +48,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   /** Retrieve the list of orders for a specific day */
   def list(day: String): Future[Seq[Order]] = {
-    val query = orders.filter(o => o.dateOrder == day).sortBy(o => o.hourOrder)
+    val query = orders.filter(_.dateOrder === day).sortBy(o => o.hourOrder)
     db.run(query.result)
   }
 }
