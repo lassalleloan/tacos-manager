@@ -1,14 +1,14 @@
-@(message: String, errorMessage: String = "")
+@(title: String, error: String = "")
 
 @*
 * Call the `main` template with two arguments. The first
 * argument is a `String` with the title of the page, the second
 * argument is an `Html` object containing the body of the page.
 *@
-@main(message) {
+@main(title) {
     @defining(play.core.PlayVersion.current) { version =>
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/register.css")">
-        <div class="text-center"><p style="color:red"><strong>@errorMessage</strong></p></div>
+        <div class="text-center"><p style="color:red"><strong>@error</strong></p></div>
         <div class="signup-form">
             <form action="@routes.tacosUserCreateAccountController.createAccount()" method="post">
                 <h2>Inscription</h2>

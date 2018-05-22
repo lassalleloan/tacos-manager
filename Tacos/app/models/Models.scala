@@ -1,11 +1,6 @@
 package models
 
-import play.api.libs.json.Json
-
 case class User(id: Option[Long], firstName: String, lastName: String, phone: Option[String], email: String, password: String, roleUser: Long)
-object User {
-  implicit val userJsonFormat = Json.format[User]
-}
 
 case class RoleUser(id: Long, name: String)
 
@@ -15,7 +10,7 @@ case class Fry(id: Long, name: String, portion: Int, price: Double)
 
 case class OrderFry(orderId: Long, fryId: Long, quantity: Int)
 
-case class Drink(id: Long, name: String, deciliter: Int, price: Double)
+case class Drink(id: Option[Long], name: String, deciliter: Int, price: Double)
 
 case class OrderDrink(orderId: Long, drinkId: Long, quantity: Int)
 

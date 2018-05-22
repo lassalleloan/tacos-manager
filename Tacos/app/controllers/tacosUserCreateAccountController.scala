@@ -58,7 +58,7 @@ class tacosUserCreateAccountController @Inject()(cc: ControllerComponents, userD
   }
 
   /**
-    * Call the "tacos_home" html template.
+    * Call the "tacos_user_create_account" html template.
     */
   def tacosUserCreateAccount = Action {
     Ok(views.html.tacos_user_create_account(title))

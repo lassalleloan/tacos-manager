@@ -6,7 +6,6 @@ import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
 
 // We use a trait component here in order to share the user User class with other DAO, thanks to the inheritance.
 trait UserComponent extends RoleUserComponent {
