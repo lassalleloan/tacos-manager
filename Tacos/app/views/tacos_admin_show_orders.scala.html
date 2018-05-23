@@ -1,4 +1,5 @@
-@(message: String)
+
+@(message: String, orders: Seq[Order])
 
 @*
 * Call the `main` template with two arguments. The first
@@ -8,5 +9,10 @@
 @mainAdmin(message) {
     @defining(play.core.PlayVersion.current) { version =>
         <h1>admin: commandes du jour</h1>
+        <ul>
+            @for(i <- orders){
+                <li>@i</li>
+            }
+        </ul>
     }
 }

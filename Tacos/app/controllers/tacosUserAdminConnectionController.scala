@@ -46,7 +46,9 @@ class tacosUserAdminConnectionController @Inject()(cc: ControllerComponents, use
         if(u.password.equals(connectionRequest.password)){
           //s'il s'agit d'un admin
           if(u.roleUser == 1){
-            Ok(views.html.tacos_admin_show_orders(title))
+            //we redirect to the admin controller with a session id that corrseponds to the user/admin ID
+            Redirect("/tacosAdminShowOrders", MOVED_PERMANENTLY).withSession("connected" -> u.id.get.toString)
+            //Ok(views.html.tacos_admin_show_orders(title))
           }
           //s'il s'agit d'un user
           else{
