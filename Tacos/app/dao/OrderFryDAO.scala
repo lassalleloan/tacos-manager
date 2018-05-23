@@ -38,7 +38,7 @@ class OrderFryDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   // Get the object-oriented list of orderFries directly from the query table.
   val orderFries = TableQuery[OrderFryTable]
 
-  /** Retrieve the list of Fries sorted by orderId and fryId */
+  /** Retrieve the list of orderFries sorted by orderId and fryId */
   def list(): Future[Seq[OrderFry]] = {
     val query = orderFries.sortBy(x => (x.orderId, x.fryId))
     db.run(query.result)

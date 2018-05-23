@@ -20,7 +20,7 @@ trait FryComponent {
     def price = column[Double]("prix")
 
     // Map the attributes with the model.
-    def * = (id.?, name, portion, price) <> (Fry.tupled, Fry.unapply)
+    def * = (id, name, portion, price) <> (Fry.tupled, Fry.unapply)
   }
 }
 
@@ -52,13 +52,13 @@ class FryDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(i
 
   /** Insert a new fry, then return it. */
   def insert(fry: Fry): Future[Fry] = {
-    val insertQuery = fries returning fries.map(_.id) into ((fry, id) => fry.copy(Some(id)))
+    val insertQuery = fries returning fries.map(_.id) into ((fry, id) => fry.copy(id))
     db.run(insertQuery += fry)
   }
 
   /** Update a fry, then return an integer that indicate if the fry was found (1) or not (0). */
   def update(id: Long, fry: Fry): Future[Int] = {
-    val fryToUpdate: Fry = fry.copy(Some(id))
+    val fryToUpdate: Fry = fry.copy(id)
     db.run(fries.filter(_.id === id).update(fryToUpdate))
   }
 
