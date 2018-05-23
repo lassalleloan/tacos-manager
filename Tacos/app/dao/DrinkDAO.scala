@@ -36,7 +36,7 @@ class DrinkDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   // Get the object-oriented list of drinks directly from the query table.
   val drinks = TableQuery[DrinkTable]
 
-  /** Retrieve the list of drinks */
+  /** Retrieve the list of drinks sorted by name */
   def list(): Future[Seq[Drink]] = {
     val query = drinks.sortBy(_.name)
     db.run(query.result)

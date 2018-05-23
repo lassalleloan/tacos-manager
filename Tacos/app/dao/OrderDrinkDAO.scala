@@ -1,8 +1,12 @@
 package dao
 
+import javax.inject.{Inject, Singleton}
+
 import models.OrderDrink
-import play.api.db.slick.HasDatabaseConfigProvider
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
+
+import scala.concurrent.{ExecutionContext, Future}
 
 // We use a trait component here in order to share the OrderDrink class with other DAO, thanks to the inheritance.
 trait OrderDrinkComponent extends OrderComponent with DrinkComponent {
@@ -25,3 +29,22 @@ trait OrderDrinkComponent extends OrderComponent with DrinkComponent {
 // A DatabaseConfigProvider is injected through dependency injection; it provides a Slick type bundling a database and
 // driver. The class extends the user query table and loads the JDBC profile configured in the application's
 // configuration file.
+@Singleton
+class OrderDrinkDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
+  extends OrderDrinkComponent with HasDatabaseConfigProvider[JdbcProfile] {
+
+  import profile.api._
+
+  // Get the object-oriented list of orderDrinks directly from the query table.
+  val orderDrinks = TableQuery[OrderDrinkTable]
+
+  /** Retrieve the list of orderDrinks sorted by orderId and drinkId */
+  def list(): Future[Seq[OrderDrink]] = {
+    val query = orderDrinks.sortBy(x => (x.orderId, x.drinkId))
+    db.run(query.result)
+  }
+
+  /** Retrieve a list of orderDrinks from the orderId and the drinkId. */
+  def findById(orderId: Long, drinkId: Long): Future[Option[OrderDrink]] =
+    db.run(orderDrinks.filter(_.orderId === orderId).filter(_.drinkId === drinkId).result.headOption)
+}

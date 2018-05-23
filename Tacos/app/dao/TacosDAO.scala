@@ -1,8 +1,12 @@
 package dao
 
+import javax.inject.{Inject, Singleton}
+
 import models.Tacos
-import play.api.db.slick.HasDatabaseConfigProvider
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
+
+import scala.concurrent.{ExecutionContext, Future}
 
 trait TacosComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
@@ -24,3 +28,20 @@ trait TacosComponent {
 // A DatabaseConfigProvider is injected through dependency injection; it provides a Slick type bundling a database and
 // driver. The class extends the user query table and loads the JDBC profile configured in the application's
 // configuration file.
+@Singleton
+class TacosDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends TacosComponent with HasDatabaseConfigProvider[JdbcProfile] {
+  import profile.api._
+
+  // Get the object-oriented list of tacos directly from the query table.
+  val tacos = TableQuery[TacosTable]
+
+  /** Retrieve the list of tacos sorted by name */
+  def list(): Future[Seq[Tacos]] = {
+    val query = tacos.sortBy(x => x.name)
+    db.run(query.result)
+  }
+
+  /** Retrieve a tacos from the id. */
+  def findById(id: Long): Future[Option[Tacos]] =
+    db.run(tacos.filter(_.id === id).result.headOption)
+}
