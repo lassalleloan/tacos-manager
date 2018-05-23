@@ -41,9 +41,9 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
   // Get the object-oriented list of users directly from the query table.
   val users = TableQuery[UserTable]
 
-  /** Retrieve the list of users */
+  /** Retrieve the list of users sorted by lastName and firstName */
   def list(): Future[Seq[User]] = {
-    val query = users.sortBy(s => (s.lastName, s.firstName))
+    val query = users.sortBy(x => (x.lastName, x.firstName))
     db.run(query.result)
   }
 
