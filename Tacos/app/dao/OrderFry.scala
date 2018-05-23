@@ -1,8 +1,12 @@
 package dao
 
+import javax.inject.{Inject, Singleton}
+
 import models.OrderFry
-import play.api.db.slick.HasDatabaseConfigProvider
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
+
+import scala.concurrent.{ExecutionContext, Future}
 
 // We use a trait component here in order to share the OrderFry class with other DAO, thanks to the inheritance.
 trait OrderFryComponent extends OrderComponent with FryComponent {
@@ -25,3 +29,26 @@ trait OrderFryComponent extends OrderComponent with FryComponent {
 // A DatabaseConfigProvider is injected through dependency injection; it provides a Slick type bundling a database and
 // driver. The class extends the user query table and loads the JDBC profile configured in the application's
 // configuration file.
+@Singleton
+class OrderFryDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
+  extends OrderFryComponent with HasDatabaseConfigProvider[JdbcProfile] {
+
+  import profile.api._
+
+  // Get the object-oriented list of orderFries directly from the query table.
+  val orderFries = TableQuery[OrderFryTable]
+
+  /** Retrieve the list of Fries sorted by orderId and fryId */
+  def list(): Future[Seq[OrderFry]] = {
+    val query = orderFries.sortBy(x => (x.orderId, x.fryId))
+    db.run(query.result)
+  }
+
+  /** Retrieve a list of orderFries from the orderId and the fryId. */
+  def findById(orderId: Long, fryId: Long): Future[Option[OrderFry]] =
+    db.run(orderFries.filter(_.orderId === orderId).filter(_.fryId === fryId).result.headOption)
+
+  /** Retrieve a list of orderFries from the orderId. */
+  def findByOrderId(orderId: Long): Future[Option[OrderFry]] =
+    db.run(orderFries.filter(_.orderId === orderId).result.headOption)
+}

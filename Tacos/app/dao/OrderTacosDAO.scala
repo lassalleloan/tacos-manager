@@ -47,4 +47,8 @@ class OrderTacosDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
   /** Retrieve a list of orderTacos from the orderId and the tacosId. */
   def findById(orderId: Long, tacosId: Long): Future[Option[OrderTacos]] =
     db.run(orderTacos.filter(_.orderId === orderId).filter(_.tacosId === tacosId).result.headOption)
+
+  /** Retrieve a list of orderTacos from the orderId. */
+  def findByOrderId(orderId: Long): Future[Option[OrderTacos]] =
+    db.run(orderTacos.filter(_.orderId === orderId).result.headOption)
 }

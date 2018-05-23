@@ -47,4 +47,8 @@ class OrderDrinkDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
   /** Retrieve a list of orderDrinks from the orderId and the drinkId. */
   def findById(orderId: Long, drinkId: Long): Future[Option[OrderDrink]] =
     db.run(orderDrinks.filter(_.orderId === orderId).filter(_.drinkId === drinkId).result.headOption)
+
+  /** Retrieve a list of orderDrinks from the orderId. */
+  def findByOrderId(orderId: Long): Future[Option[OrderDrink]] =
+    db.run(orderDrinks.filter(_.orderId === orderId).result.headOption)
 }
