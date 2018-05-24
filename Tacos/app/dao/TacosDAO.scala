@@ -1,7 +1,6 @@
 package dao
 
 import javax.inject.{Inject, Singleton}
-
 import models.Tacos
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
@@ -24,12 +23,13 @@ trait TacosComponent {
   }
 }
 
-// This class contains the object-oriented list of users and offers methods to query the data.
+// This class contains the object-oriented list of tacos and offers methods to query the data.
 // A DatabaseConfigProvider is injected through dependency injection; it provides a Slick type bundling a database and
-// driver. The class extends the user query table and loads the JDBC profile configured in the application's
+// driver. The class extends the tacos query table and loads the JDBC profile configured in the application's
 // configuration file.
 @Singleton
-class TacosDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends TacosComponent with HasDatabaseConfigProvider[JdbcProfile] {
+class TacosDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
+  extends TacosComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
 
   // Get the object-oriented list of tacos directly from the query table.
