@@ -1,4 +1,5 @@
-@(title: String, drinks: Seq[Drink] = Seq(), error: String = "")
+@(title: String, fries: Seq[Fry] = Seq(), drinks: Seq[Drink] = Seq(), tacos: Seq[Tacos] = Seq(),
+        errorList: List[String] = List())
 
 @*
 * Call the `main` template with two arguments. The first
@@ -7,6 +8,76 @@
 *@
 @mainUser(title) {
     @defining(play.core.PlayVersion.current) { version =>
-        <h1>user: espace commande</h1>
+    <tr class="signup-form">
+        <form action="@routes.tacosUserOrderController.createOrder()" method="post">
+            <h2>Espace commande</h2>
+            <table>
+                @if(errorList.nonEmpty) {
+                    <tr>
+                        <td colspan="3">
+                        @errorList.map { e => <p style="color: red"><strong>@e</strong></p> }
+                        </td>
+                    </tr>
+                }
+                @if(fries.nonEmpty) {
+                    <tr>
+                        <td>
+                            <h4>Fries</h4>
+                        </td>
+                        <td>
+                            <select name="fryId" size="1">
+                            @for(f <- fries) {
+                                <option value="@f.id">@f.name @f.portion @f.price .-</option>
+                            }
+                            </select>
+                        </td>
+                        <td>
+                            Quantité: <input type="number" class="form-control" name="fryQuantity" value="0" min="0" max="1000">
+                        </td>
+                    </tr>
+                }
+
+                @if(drinks.nonEmpty) {
+                    <tr>
+                        <td>
+                            <h4>Drinks</h4>
+                        </td>
+                        <td>
+                            <select name="drinkId" size="1">
+                                @for(d <- drinks) {
+                                <option value="@d.id">@d.name @d.deciliter @d.price .-</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            Quantité: <input type="number" class="form-control" name="drinkQuantity" value="0" min="0" max="1000">
+                        </td>
+                    </tr>
+                }
+
+                @if(tacos.nonEmpty) {
+                    <tr>
+                        <td>
+                            <h4>Tacos</h4>
+                        </td>
+                        <td>
+                            <select name="tacosId" size="1">
+                            @for(t <- tacos) {
+                                <option value="@t.id">@t.name @t.price .-</option>
+                            }
+                            </select>
+                        </td>
+                        <td>
+                            Quantité: <input type="number" class="form-control" name="tacosQuantity" value="0" min="0" max="1000">
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="3">
+                        <button type="submit" class="btn btn-success btn-lg btn-block">Commander</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
     }
 }

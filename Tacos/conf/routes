@@ -13,7 +13,9 @@ GET     /signup                     controllers.tacosUserCreateAccountController
 +nocsrf # the "nocsrf" modifier tag is used to disable the CSRF filter for the following route in order to avoid an "Unauthorized" error
 POST    /signup                     controllers.tacosUserCreateAccountController.createAccount
 
-GET     /tacosUserOrder             controllers.tacosUserOrderController.tacosUserOrder
+GET     /orders                      controllers.tacosUserOrderController.tacosUserOrder
++nocsrf # the "nocsrf" modifier tag is used to disable the CSRF filter for the following route in order to avoid an "Unauthorized" error
+POST    /orders                     controllers.tacosUserOrderController.createOrder
 
 +nocsrf # the "nocsrf" modifier tag is used to disable the CSRF filter for the following route in order to avoid an "Unauthorized" error
 POST    /tacosUserAdminConnectionController controllers.tacosUserAdminConnectionController.checkConnection
