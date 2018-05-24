@@ -20,7 +20,7 @@ trait DrinkComponent {
     def price = column[Double]("prix")
 
     // Map the attributes with the model.
-    def * = (id.?, name, deciliter, price) <> (Drink.tupled, Drink.unapply)
+    def * = (id, name, deciliter, price) <> (Drink.tupled, Drink.unapply)
   }
 }
 
@@ -52,13 +52,13 @@ class DrinkDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   /** Insert a new drink, then return it. */
   def insert(drink: Drink): Future[Drink] = {
-    val insertQuery = drinks returning drinks.map(_.id) into ((drink, id) => drink.copy(Some(id)))
+    val insertQuery = drinks returning drinks.map(_.id) into ((drink, id) => drink.copy(id))
     db.run(insertQuery += drink)
   }
 
   /** Update a drink, then return an integer that indicate if the drink was found (1) or not (0). */
   def update(id: Long, drink: Drink): Future[Int] = {
-    val drinkToUpdate: Drink = drink.copy(Some(id))
+    val drinkToUpdate: Drink = drink.copy(id)
     db.run(drinks.filter(_.id === id).update(drinkToUpdate))
   }
 
