@@ -2,9 +2,11 @@ package controllers
 
 //import dao.{CoursesDAO, StudentsDAO}
 import javax.inject._
+
 import scala.concurrent.ExecutionContext.Implicits.global
-import dao.OrderDAO
+import dao.{OrderDAO, UserDAO}
 import models.Order
+import models.User
 import play.api.mvc._
 
 import scala.concurrent.Future
@@ -14,7 +16,7 @@ import scala.concurrent.Future
   * application's home page.
   */
 @Singleton
-class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: OrderDAO) extends AbstractController(cc) {
+class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: OrderDAO, userDAO: UserDAO) extends AbstractController(cc) {
 
   val title = "Intergalactic TACOS Food"
 
@@ -26,6 +28,10 @@ class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: Or
 
     request.session.get("connected").map { id =>
       val ordersList:Future[Seq[Order]] = orderDAO.list()
+      //val tuplesOrdersClients = ordersList.map(order => (order, userDAO.findById(order)))
+      //val usersList:Future[Seq[User]] = userDAO.list()
+
+
       for {
         orders <- ordersList
       } yield Ok(views.html.tacos_admin_show_orders(title, orders))

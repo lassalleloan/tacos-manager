@@ -11,7 +11,15 @@
         <h1>admin: commandes du jour</h1>
         <ul>
             @for(i <- orders){
-                <li>@i</li>
+                <li>
+                    <h2>Commande n°@i.id</h2>
+                    <ul>
+                        <li>Client ID : @i.person</li>
+                        <li>Heure de livraison : @i.hourOrder</li>
+                        <li>Prix : @i.price .-</li>
+                        <li>@i</li>
+                    </ul>
+                </li>
             }
         </ul>
     }
