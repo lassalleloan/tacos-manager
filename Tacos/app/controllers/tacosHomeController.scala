@@ -27,4 +27,13 @@ class tacosHomeController @Inject()(cc: ControllerComponents) extends AbstractCo
     Ok(views.html.tacos_home(title))
   }
 
+
+
+  /**
+    * logout : termintae the session and goes home
+    */
+  def logout = Action {
+    Ok(views.html.tacos_home(title)).withNewSession
+  }
+
 }

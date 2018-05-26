@@ -8,8 +8,6 @@ import models.Order
 import play.api.mvc._
 
 import scala.concurrent.Future
-//import play.api.routing.JavaScriptReverseRouter
-//import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
@@ -22,20 +20,9 @@ class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: Or
 
 
   /**
-    * Call the "tacos_home" html template.
+    * show the orders for today
     */
   def tacosAdminShowOrders = Action.async { implicit request =>
-    /*val ordersList:Future[Seq[Order]] = orderDAO.list()
-
-    request.session.get("connected").map { id: String =>
-      println(id)
-    }.getOrElse {
-      Unauthorized("Oops, you are not connected")
-    }
-
-
-    for(orders <- ordersList)yield Ok(views.html.tacos_admin_show_orders(title, orders))*/
-    //request.session
 
     request.session.get("connected").map { id =>
       val ordersList:Future[Seq[Order]] = orderDAO.list()
@@ -43,7 +30,7 @@ class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: Or
         orders <- ordersList
       } yield Ok(views.html.tacos_admin_show_orders(title, orders))
     }.getOrElse {
-      Future.successful(Unauthorized("Oops, you are not connected"))
+      Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
     }
   }
 }

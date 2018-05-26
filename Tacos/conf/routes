@@ -5,6 +5,7 @@
 
 # Pages
 GET     /                           controllers.tacosHomeController.tacosHome
+GET     /logout                     controllers.tacosHomeController.logout
 GET     /tacosAdminManagement       controllers.tacosManagementController.tacosAdminManagement
 GET     /tacosAdminShowOrders       controllers.tacosShowOrdersController.tacosAdminShowOrders
 GET     /tacosUserAdminConnection   controllers.tacosUserAdminConnectionController.tacosUserAdminConnection
