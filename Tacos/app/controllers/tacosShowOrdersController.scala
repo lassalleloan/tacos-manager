@@ -27,14 +27,20 @@ class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: Or
   def tacosAdminShowOrders = Action.async { implicit request =>
 
     request.session.get("connected").map { id =>
-      val ordersList:Future[Seq[Order]] = orderDAO.list()
-      //val tuplesOrdersClients = ordersList.map(order => (order, userDAO.findById(order)))
-      //val usersList:Future[Seq[User]] = userDAO.list()
+//      val ordersList:Future[Seq[Order]] = orderDAO.list()
+//      val tuplesOrdersClients = ordersList.map(order => (order, userDAO.findById(order)))
+//      val usersList:Future[Seq[User]] = userDAO.list()
 
+//      for {
+//        orders <- ordersList
+//      } yield Ok(views.html.tacos_admin_show_orders(title, orders))
+//    }.getOrElse {
+//      Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
+//    }
 
       for {
-        orders <- ordersList
-      } yield Ok(views.html.tacos_admin_show_orders(title, orders))
+        ordersUsers <- orderDAO.listWithUsers()
+      } yield Ok(views.html.tacos_admin_show_orders(title, ordersUsers))
     }.getOrElse {
       Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
     }

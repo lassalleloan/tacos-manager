@@ -1,8 +1,7 @@
 package dao
 
 import javax.inject.{Inject, Singleton}
-
-import models.Order
+import models.{Order, User}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 
@@ -39,11 +38,23 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   // Get the object-oriented list of orders directly from the query table.
   val orders = TableQuery[OrderTable]
+  val users = TableQuery[UserTable]
 
   /** Retrieve the list of orders sorted by date and hour */
   def list(): Future[Seq[Order]] = {
     val query = orders.sortBy(x => (x.dateOrder, x.hourOrder))
     db.run(query.result)
+  }
+
+  /** Retrieve the list of orders sorted by date and hour */
+  def listWithUsers(): Future[Seq[(Order, String)]] = {
+    val query = orders.sortBy(x => (x.dateOrder, x.hourOrder.desc))
+                      .join(users).on(_.user === _.id)
+    db.run(query.result).map { ordersUsers =>
+      for {
+        (order, user) <- ordersUsers
+      } yield (order, user.firstName.concat(" ").concat(user.lastName))
+    }
   }
 
   /** Retrieve the list of orders for a specific day sorted by the hour of the order */
