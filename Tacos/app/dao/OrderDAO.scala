@@ -68,6 +68,6 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(orders.filter(_.id === id).result.headOption)
 
   /** Retrieve an order from the id of a user. */
-  def findByIdUser(id: Long): Future[Option[Order]] =
-    db.run(orders.filter(_.user === id).result.headOption)
+  def findByIdUserPerDay(id: Long, day: String): Future[Seq[Order]] =
+    db.run(orders.filter(_.user === id).filter(_.dateOrder === day).sortBy(o => o.hourOrder).result)
 }
