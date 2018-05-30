@@ -51,4 +51,10 @@ class OrderTacosDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
   /** Retrieve a list of orderTacos from the orderId. */
   def findByOrderId(orderId: Long): Future[Option[OrderTacos]] =
     db.run(orderTacos.filter(_.orderId === orderId).result.headOption)
+
+  /** Insert a new orderTacos, then return it. */
+  def insert(myOrderTacos: OrderTacos): Future[OrderTacos] = {
+    val insertQuery = orderTacos returning orderTacos.map(x => (x.orderId, x.tacosId)) into ((orderTacos, doubleId) => orderTacos.copy(doubleId._1, doubleId._2))
+    db.run(insertQuery += myOrderTacos)
+  }
 }
