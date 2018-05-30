@@ -23,7 +23,7 @@ trait OrderComponent extends UserComponent {
     def user = column[Long]("personne_fk")
 
     // Map the attributes with the model.
-    def * = (id, dateOrder.?, hourOrder, price, user) <> (Order.tupled, Order.unapply)
+    def * = (id.?, dateOrder.?, hourOrder, price, user) <> (Order.tupled, Order.unapply)
   }
 }
 
@@ -74,7 +74,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   /** Insert a new order, then return it. */
   def insert(order: Order): Future[Order] = {
-    val insertQuery = orders returning orders.map(_.id) into ((order, id) => order.copy(id))
+    val insertQuery = orders returning orders.map(_.id) into ((order, id) => order.copy(Some(id)))
     db.run(insertQuery += order)
   }
 }
