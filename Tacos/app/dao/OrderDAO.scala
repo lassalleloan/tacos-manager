@@ -1,6 +1,7 @@
 package dao
 
 import javax.inject.{Inject, Singleton}
+
 import models.{Order, User}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
@@ -22,7 +23,7 @@ trait OrderComponent extends UserComponent {
     def user = column[Long]("personne_fk")
 
     // Map the attributes with the model.
-    def * = (id, dateOrder.?, hourOrder, price, user) <> (Order.tupled, Order.unapply)
+    def * = (id.?, dateOrder.?, hourOrder, price, user) <> (Order.tupled, Order.unapply)
   }
 }
 
@@ -66,6 +67,25 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   /** Retrieve an order from the id. */
   def findById(id: Long): Future[Option[Order]] =
     db.run(orders.filter(_.id === id).result.headOption)
+<<<<<<< HEAD
   }
 
 
+=======
+
+  /** Retrieve an order from the id of a user for a specific day. */
+  def findByIdUserPerDay(id: Long, day: String): Future[Seq[Order]] =
+    db.run(orders.filter(_.user === id).filter(_.dateOrder === day).sortBy(o => o.hourOrder).result)
+
+  /** Retrieve an order from the id of a user for a specific day and since a specific hour. */
+  def findByIdUserPerDay(id: Long, day: String, hour: String): Future[Seq[Order]] =
+    db.run(orders.filter(_.user === id).filter(_.dateOrder === day).filter(_.hourOrder >= hour)
+      .sortBy(o => o.hourOrder).result)
+
+  /** Insert a new order, then return it. */
+  def insert(order: Order): Future[Order] = {
+    val insertQuery = orders returning orders.map(_.id) into ((order, id) => order.copy(Some(id)))
+    db.run(insertQuery += order)
+  }
+}
+>>>>>>> 161d059e9920b46023f362077428e1e8c31d0a67
