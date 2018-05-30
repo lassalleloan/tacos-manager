@@ -6,7 +6,7 @@ import javax.inject._
 import scala.concurrent.ExecutionContext.Implicits.global
 import dao.{OrderDAO, UserDAO}
 import models.Order
-import models.User
+import models._
 import play.api.mvc._
 
 import scala.concurrent.Future
@@ -27,22 +27,27 @@ class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: Or
   def tacosAdminShowOrders = Action.async { implicit request =>
 
     request.session.get("connected").map { id =>
-//      val ordersList:Future[Seq[Order]] = orderDAO.list()
-//      val tuplesOrdersClients = ordersList.map(order => (order, userDAO.findById(order)))
-//      val usersList:Future[Seq[User]] = userDAO.list()
 
-//      for {
-//        orders <- ordersList
-//      } yield Ok(views.html.tacos_admin_show_orders(title, orders))
-//    }.getOrElse {
-//      Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
-//    }
+      //will keep all the orders to display
+      val ordersToShowList: List[OrderToShow] = List()
 
-      for {
-        ordersUsers <- orderDAO.listWithUsers()
-      } yield Ok(views.html.tacos_admin_show_orders(title, ordersUsers))
+      //we get all the orders in the database. We have to joins various tables to build an order that can be properly displayed (called OrdersToShow)
+      val ordersList:Future[Seq[Order]] = orderDAO.list()
+      //we get all the users who made an order
+      val futurUsersList = ordersList.map(x => x.map(order => (userDAO.findById(order.person), order.hourOrder)))
+
+      /*for {
+        orders <- orderDAO.list()
+        order <- orders
+        user <- userDAO.findById(order.person)
+
+      } yield (order.hourOrder, user.get.firstName, order.dateOrder)*/
+
+      Future.successful(Ok(views.html.tacos_admin_show_orders(title, ordersToShowList)))
     }.getOrElse {
       Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
     }
+
+
   }
 }

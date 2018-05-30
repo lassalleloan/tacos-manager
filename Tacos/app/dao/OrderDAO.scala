@@ -48,8 +48,8 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   /** Retrieve the list of orders sorted by date and hour */
   def listWithUsers(): Future[Seq[(Order, String)]] = {
-    val query = orders.sortBy(x => (x.dateOrder, x.hourOrder.desc))
-                      .join(users).on(_.user === _.id)
+    val query = orders.sortBy(x => (x.dateOrder, x.hourOrder))
+      .join(users).on(_.user === _.id)
     db.run(query.result).map { ordersUsers =>
       for {
         (order, user) <- ordersUsers
@@ -66,4 +66,6 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   /** Retrieve an order from the id. */
   def findById(id: Long): Future[Option[Order]] =
     db.run(orders.filter(_.id === id).result.headOption)
-}
+  }
+
+

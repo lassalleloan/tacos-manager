@@ -1,5 +1,7 @@
 package models
 
+import scala.reflect.internal.util.Statistics.Quantity
+
 case class User(id: Option[Long], firstName: String, lastName: String, phone: Option[String], email: String, password: String, roleUser: Long)
 
 case class RoleUser(id: Long, name: String)
@@ -29,3 +31,29 @@ case class TacosMeat(tacosId: Long, meatId: Long)
 case class Ingredient(id: Long, name: String, origin: String)
 
 case class TacosIngredient(tacosId: Long, ingredientId: Long)
+
+
+
+case class TacosToShow(name: String,
+                       quantity: Int,
+                       ingredientsList: List[Ingredient],
+                       saucesList: List[Sauce],
+                       meatsList: List[Meat])
+
+case class FryToShow(name: String,
+                     portion: Int,
+                     quantity: Int)
+
+case class DrinkToShow(name: String,
+                       deciliter: Int,
+                       quantity: Int)
+
+case class OrderToShow(id: Long,
+                       dateOrder: Option[String],
+                       hourOrder: String,
+                       price: Double,
+                       user: User,
+                       tacosList: List[TacosToShow],
+                       friesList: List[FryToShow],
+                       drinksList: List[DrinkToShow]
+                      )
