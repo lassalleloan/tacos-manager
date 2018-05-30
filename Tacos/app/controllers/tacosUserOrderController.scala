@@ -11,7 +11,7 @@ import scala.concurrent.Future
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
-  * application's home page.
+  * application's order page.
   */
 @Singleton
 class tacosUserOrderController @Inject()(cc: ControllerComponents, fryDAO: FryDAO, drinkDAO: DrinkDAO, tacosDAO: TacosDAO) extends AbstractController(cc) {
@@ -26,36 +26,33 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, fryDAO: FryDA
   def orderForm = Form(
     mapping(
       "fryId" -> longNumber
-        .verifying("Choix des frites incorrect", _ >= 0),
+        .verifying("Le choix des frites incorrect", _ >= 0),
       "fryQuantity" -> number
         .verifying("La quantité de frites est incorrecte", q => q >= 0 && q <= 1000),
       "drinkId" -> longNumber
-        .verifying("Choix de la boisson incorrect", q => q >= 0 && q <= 1000),
+        .verifying("Le choix de la boisson incorrect", q => q >= 0 && q <= 1000),
       "drinkQuantity" -> number
         .verifying("La quantité de boisson est incorrecte", _ >= 0),
       "tacosId" -> longNumber
-        .verifying("Choix du tacos incorrect", q => q >= 0 && q <= 1000),
+        .verifying("Le choix du tacos incorrect", q => q >= 0 && q <= 1000),
       "tacosQuantity" -> number
         .verifying("La quantité de tacos est incorrecte", _ >= 0),
     )(OrderRequest.apply)(OrderRequest.unapply)
   )
 
-  def createOrder = Action.async { implicit request =>
+  def order = Action.async { implicit request =>
     orderForm.bindFromRequest.fold(
       errorForm => {
-        val errorsList = errorForm.errors.map(f => f.message).toList
+        val errorList = errorForm.errors.map(f => f.message).toList
 
         for {
           fries <- fryDAO.list()
           drinks <- drinkDAO.list()
           tacos <- tacosDAO.list()
-        } yield Ok(views.html.tacos_user_order(title, fries, drinks, tacos, errorsList))
+        } yield Ok(views.html.tacos_user_order(title, fries, drinks, tacos, errorList))
       } ,
       o => {
-        val message = "La commande est :\n"
-          + o.fryId + " x " + o.fryQuantity + " + "
-          + o.drinkId + " x " + o.drinkQuantity + " + "
-          + o.tacosId + " x " + o.tacosQuantity
+        val message = "La commande est :\n" + o.fryId + " x " + o.fryQuantity + " + " + o.drinkId + " x " + o.drinkQuantity + " + " + o.tacosId + " x " + o.tacosQuantity
           Future.successful(Ok(views.html.tacos_user_order(title, errorList = List(message))))
       })
   }
