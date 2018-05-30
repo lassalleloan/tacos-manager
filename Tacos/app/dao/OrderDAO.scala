@@ -66,4 +66,8 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   /** Retrieve an order from the id. */
   def findById(id: Long): Future[Option[Order]] =
     db.run(orders.filter(_.id === id).result.headOption)
+
+  /** Retrieve an order from the id of a user. */
+  def findByIdUser(id: Long): Future[Option[Order]] =
+    db.run(orders.filter(_.user === id).result.headOption)
 }
