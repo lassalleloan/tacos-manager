@@ -72,6 +72,11 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   def findByIdUserPerDay(id: Long, day: String): Future[Seq[Order]] =
     db.run(orders.filter(_.user === id).filter(_.dateOrder === day).sortBy(o => o.hourOrder).result)
 
+  /** Retrieve an order from the id of a user for a specific day and since a specific hour. */
+  def findByIdUserPerDay(id: Long, day: String, hour: String): Future[Seq[Order]] =
+    db.run(orders.filter(_.user === id).filter(_.dateOrder === day).filter(_.hourOrder >= hour)
+      .sortBy(o => o.hourOrder).result)
+
   /** Insert a new order, then return it. */
   def insert(order: Order): Future[Order] = {
     val insertQuery = orders returning orders.map(_.id) into ((order, id) => order.copy(id))
