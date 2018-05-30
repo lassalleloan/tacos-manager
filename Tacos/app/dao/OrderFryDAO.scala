@@ -51,4 +51,10 @@ class OrderFryDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   /** Retrieve a list of orderFries from the orderId. */
   def findByOrderId(orderId: Long): Future[Option[OrderFry]] =
     db.run(orderFries.filter(_.orderId === orderId).result.headOption)
+
+  /** Insert a new orderFry, then return it. */
+  def insert(orderFry: OrderFry): Future[OrderFry] = {
+    val insertQuery = orderFries returning orderFries.map(x => (x.orderId, x.fryId)) into ((orderFry, doubleId) => orderFry.copy(doubleId._1, doubleId._2))
+    db.run(insertQuery += orderFry)
+  }
 }
