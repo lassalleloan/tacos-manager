@@ -10,21 +10,16 @@ GET     /tacosAdminManagement       controllers.tacosManagementController.tacosA
 GET     /tacosAdminShowOrders       controllers.tacosShowOrdersController.tacosAdminShowOrders
 GET     /tacosUserAdminConnection   controllers.tacosUserAdminConnectionController.tacosUserAdminConnection
 
-GET     /signup                     controllers.tacosUserCreateAccountController.tacosUserCreateAccount
+GET     /signup                     controllers.tacosUserSignUpController.tacosUserSignUp
 +nocsrf # the "nocsrf" modifier tag is used to disable the CSRF filter for the following route in order to avoid an "Unauthorized" error
-POST    /signup                     controllers.tacosUserCreateAccountController.createAccount
+POST    /signup                     controllers.tacosUserSignUpController.signUp
 
-GET     /orders                      controllers.tacosUserOrderController.tacosUserOrder
+GET     /order                      controllers.tacosUserOrderController.tacosUserOrder
 +nocsrf # the "nocsrf" modifier tag is used to disable the CSRF filter for the following route in order to avoid an "Unauthorized" error
-POST    /orders                     controllers.tacosUserOrderController.createOrder
+POST    /order                      controllers.tacosUserOrderController.order
 
 +nocsrf # the "nocsrf" modifier tag is used to disable the CSRF filter for the following route in order to avoid an "Unauthorized" error
 POST    /tacosUserAdminConnectionController controllers.tacosUserAdminConnectionController.checkConnection
-
-# REST API endpoints
-
-# Play's JavaScript routes manager
-#GET     /javascriptRoutes           controllers.HomeController.javascriptRoutes
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

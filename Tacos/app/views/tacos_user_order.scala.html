@@ -1,5 +1,5 @@
 @(title: String, fries: Seq[Fry] = Seq(), drinks: Seq[Drink] = Seq(), tacos: Seq[Tacos] = Seq(),
-        errorList: List[String] = List())
+        errorList: List[String] = List[String]())
 
 @*
 * Call the `main` template with two arguments. The first
@@ -9,13 +9,15 @@
 @mainUser(title) {
     @defining(play.core.PlayVersion.current) { version =>
     <tr class="signup-form">
-        <form action="@routes.tacosUserOrderController.createOrder()" method="post">
+        <form action="@routes.tacosUserOrderController.order()" method="post">
             <h2>Espace commande</h2>
             <table>
                 @if(errorList.nonEmpty) {
                     <tr>
                         <td colspan="3">
-                        @errorList.map { e => <p style="color: red"><strong>@e</strong></p> }
+                            <ul>
+                                @errorList.map { e => <li><p style="color: red"><strong>@e</strong></p></li> }
+                            </ul>
                         </td>
                     </tr>
                 }

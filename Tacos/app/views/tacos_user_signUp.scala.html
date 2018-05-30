@@ -1,0 +1,53 @@
+@(title: String, errorList: List[String] = List[String]())
+
+@*
+* Call the `main` template with two arguments. The first
+* argument is a `String` with the title of the page, the second
+* argument is an `Html` object containing the body of the page.
+*@
+@main(title) {
+    @defining(play.core.PlayVersion.current) { version =>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/signUp.css")">
+        @if(errorList.nonEmpty) {
+            <ul>
+                @errorList.map { e => <li><p style="color: red"><strong>@e</strong></p></li> }
+            </ul>
+        }
+        <div class="signup-form">
+            <form action="@routes.tacosUserSignUpController.signUp()" method="post">
+                <h2>Inscription</h2>
+                <p class="hint-text">Pour commander, il vous suffit de créer un compte. C'est gratuit et cela ne prend qu'une minute.</p>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-6"><input type="text" class="form-control" name="firstName" placeholder="Prénom" required="required"></div>
+                        <div class="col-xs-6"><input type="text" class="form-control" name="lastName" placeholder="Nom" required="required"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6"><input type="tel" class="form-control" name="phone" placeholder="Téléphone"></div>
+                    <div class="col-xs-6"><input type="email" class="form-control" name="email" placeholder="Email" required="required"></div>
+                </div>
+                <div class="form-group">
+                    <p class="hint-text">Nous vous recommandons que votre mot de passe contienne :</p>
+                    <ul class="hint-text">
+                        <li>8 caractères</li>
+                        <li>au moins 1 lettre minuscule</li>
+                        <li>au moins 1 lettre majuscule</li>
+                        <li>au moins 1 chiffre</li>
+                        <li>au moins 1 caractère spécial</li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Mot de passe" required="required">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="passwordConfirmation" placeholder="Confirmation du mot de passe" required="required">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg btn-block">Créer le compte</button>
+                </div>
+            </form>
+            <div class="text-center">Vous possédez déjà un compte? <a href="@routes.tacosUserAdminConnectionController.tacosUserAdminConnection()">Connectez-vous</a></div>
+        </div>
+    }
+}
