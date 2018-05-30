@@ -1,6 +1,7 @@
 package dao
 
 import javax.inject.{Inject, Singleton}
+
 import models.{Order, User}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
@@ -67,7 +68,13 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   def findById(id: Long): Future[Option[Order]] =
     db.run(orders.filter(_.id === id).result.headOption)
 
-  /** Retrieve an order from the id of a user. */
+  /** Retrieve an order from the id of a user for a specific day. */
   def findByIdUserPerDay(id: Long, day: String): Future[Seq[Order]] =
     db.run(orders.filter(_.user === id).filter(_.dateOrder === day).sortBy(o => o.hourOrder).result)
+
+  /** Insert a new order, then return it. */
+  def insert(order: Order): Future[Order] = {
+    val insertQuery = orders returning orders.map(_.id) into ((order, id) => order.copy(id))
+    db.run(insertQuery += order)
+  }
 }
