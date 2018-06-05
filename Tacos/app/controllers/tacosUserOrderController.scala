@@ -1,7 +1,11 @@
 package controllers
 
-import dao.{DrinkDAO, FryDAO, TacosDAO}
+import java.text.SimpleDateFormat
+import java.util.Calendar
+
+import dao._
 import javax.inject.{Inject, Singleton}
+import models.{Order, OrderDrink, OrderFry}
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc.{AbstractController, ControllerComponents}
@@ -14,7 +18,11 @@ import scala.concurrent.Future
   * application's order page.
   */
 @Singleton
-class tacosUserOrderController @Inject()(cc: ControllerComponents, fryDAO: FryDAO, drinkDAO: DrinkDAO, tacosDAO: TacosDAO) extends AbstractController(cc) {
+class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: OrderDAO,
+                                         orderFryDAO: OrderFryDAO, orderDrinkDAO: OrderDrinkDAO,
+                                         orderTacosDAO: OrderTacosDAO, fryDAO: FryDAO,
+                                         drinkDAO: DrinkDAO, tacosDAO: TacosDAO)
+  extends AbstractController(cc) {
 
   val title = "Intergalactic TACOS Food"
 
@@ -41,31 +49,64 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, fryDAO: FryDA
   )
 
   def order = Action.async { implicit request =>
-    orderForm.bindFromRequest.fold(
-      errorForm => {
-        val errorList = errorForm.errors.map(f => f.message).toList
+    val todayDate = new SimpleDateFormat("y-MM-dd").format(Calendar.getInstance().getTime)
+    val todayTime = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime)
 
-        for {
-          fries <- fryDAO.list()
-          drinks <- drinkDAO.list()
-          tacos <- tacosDAO.list()
-        } yield Ok(views.html.tacos_user_order(title, fries, drinks, tacos, errorList))
-      } ,
-      o => {
-        val message = "La commande est :\n" + o.fryId + " x " + o.fryQuantity + " + " + o.drinkId + " x " + o.drinkQuantity + " + " + o.tacosId + " x " + o.tacosQuantity
-          Future.successful(Ok(views.html.tacos_user_order(title, errorList = List(message))))
-      })
+    request.session.get("connected").map { id =>
+      orderForm.bindFromRequest.fold(
+        errorForm => {
+          val errorList = errorForm.errors.map(f => f.message).toList
+
+          for {
+            fries <- fryDAO.list()
+            drinks <- drinkDAO.list()
+            tacos <- tacosDAO.list()
+            orders <- orderDAO.findByIdUserPerDay(id.toLong, todayDate)
+          } yield Ok(views.html.tacos_user_order(title, orders.zipWithIndex, fries, drinks, tacos, errorList))
+        },
+        orderForm => {
+          try {
+            val sumPrice = for {
+              f <- fryDAO.findById(orderForm.fryId)
+              d <- drinkDAO.findById(orderForm.drinkId)
+              t <- tacosDAO.findById(orderForm.tacosId)
+            } yield f.get.price + d.get.price + t.get.price
+
+            sumPrice.map {x =>
+              orderDAO.insert(Order(None, Some(todayDate), todayTime, x, id.toLong))
+            }
+          } catch {
+            case _: Throwable => Future.successful(BAD_REQUEST)
+          }
+
+          for {
+            fries <- fryDAO.list()
+            drinks <- drinkDAO.list()
+            tacos <- tacosDAO.list()
+            orders <- orderDAO.findByIdUserPerDay(id.toLong, todayDate, todayTime.substring(0, 2))
+          } yield Ok(views.html.tacos_user_order(title, orders.zipWithIndex, fries, drinks, tacos))
+        })
+    }.getOrElse {
+      Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
+    }
   }
 
   /**
     * Call the "tacos_user_order" html template.
     */
   def tacosUserOrder = Action.async { implicit request =>
-    // Wait for the promises to resolve, then return the list of students and courses.
-    for {
-      fries <- fryDAO.list()
-      drinks <- drinkDAO.list()
-      tacos <- tacosDAO.list()
-    } yield Ok(views.html.tacos_user_order(title, fries, drinks, tacos))
+    val todayDate = new SimpleDateFormat("y-MM-dd").format(Calendar.getInstance().getTime)
+    val todayTime = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime)
+
+    request.session.get("connected").map { id =>
+      for {
+        fries <- fryDAO.list()
+        drinks <- drinkDAO.list()
+        tacos <- tacosDAO.list()
+        orders <- orderDAO.findByIdUserPerDay(id.toLong, todayDate, todayTime)
+      } yield Ok(views.html.tacos_user_order(title, orders.zipWithIndex, fries, drinks, tacos))
+    }.getOrElse {
+      Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
+    }
   }
 }

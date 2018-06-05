@@ -67,11 +67,6 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   /** Retrieve an order from the id. */
   def findById(id: Long): Future[Option[Order]] =
     db.run(orders.filter(_.id === id).result.headOption)
-<<<<<<< HEAD
-  }
-
-
-=======
 
   /** Retrieve an order from the id of a user for a specific day. */
   def findByIdUserPerDay(id: Long, day: String): Future[Seq[Order]] =
@@ -88,4 +83,3 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(insertQuery += order)
   }
 }
->>>>>>> 161d059e9920b46023f362077428e1e8c31d0a67

@@ -1,5 +1,5 @@
-@(title: String, fries: Seq[Fry] = Seq(), drinks: Seq[Drink] = Seq(), tacos: Seq[Tacos] = Seq(),
-        errorList: List[String] = List[String]())
+@(title: String, orders:Seq[(Order, Int)] = Seq[(Order, Int)](), fries: Seq[Fry] = Seq[Fry](), drinks: Seq[Drink] = Seq[Drink](),
+        tacos: Seq[Tacos] = Seq[Tacos](), errorList: List[String] = List[String]())
 
 @*
 * Call the `main` template with two arguments. The first
@@ -10,8 +10,23 @@
     @defining(play.core.PlayVersion.current) { version =>
     <tr class="signup-form">
         <form action="@routes.tacosUserOrderController.order()" method="post">
-            <h2>Espace commande</h2>
+            <h2>Espace de commande</h2>
             <table>
+                @if(orders.nonEmpty) {
+                    <tr>
+                        <td>
+                            <h4>Commandes en cours</h4>
+                        </td>
+                        <td colspan="2">
+                            <ul>
+                            @for((order, index) <- orders) {
+                                <li>@{index + 1} @order.dateOrder @order.hourOrder @order.price .-</li>
+                            }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+
                 @if(errorList.nonEmpty) {
                     <tr>
                         <td colspan="3">
@@ -21,10 +36,11 @@
                         </td>
                     </tr>
                 }
+
                 @if(fries.nonEmpty) {
                     <tr>
                         <td>
-                            <h4>Fries</h4>
+                            <h4>Frites</h4>
                         </td>
                         <td>
                             <select name="fryId" size="1">
@@ -42,7 +58,7 @@
                 @if(drinks.nonEmpty) {
                     <tr>
                         <td>
-                            <h4>Drinks</h4>
+                            <h4>Boisson</h4>
                         </td>
                         <td>
                             <select name="drinkId" size="1">

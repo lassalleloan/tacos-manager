@@ -52,7 +52,7 @@ class tacosUserAdminConnectionController @Inject()(cc: ControllerComponents, use
           }
           //s'il s'agit d'un user
           else{
-            Redirect("/order")
+            Redirect("/order", MOVED_PERMANENTLY).withSession("connected" -> u.id.get.toString)
           }
         }
         //si le mot de passe ne correspond pas

@@ -1,7 +1,5 @@
 package models
 
-import scala.reflect.internal.util.Statistics.Quantity
-
 case class User(id: Option[Long], firstName: String, lastName: String, phone: Option[String], email: String, password: String, roleUser: Long)
 
 case class RoleUser(id: Long, name: String)
