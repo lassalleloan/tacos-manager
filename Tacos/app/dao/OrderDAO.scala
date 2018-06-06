@@ -82,4 +82,6 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     val insertQuery = orders returning orders.map(_.id) into ((order, id) => order.copy(Some(id)))
     db.run(insertQuery += order)
   }
+
+
 }
