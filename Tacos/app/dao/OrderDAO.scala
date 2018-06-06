@@ -2,7 +2,7 @@ package dao
 
 import javax.inject.{Inject, Singleton}
 
-import models.{Order, User}
+import models.{Order, User, OrderToShow}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 
