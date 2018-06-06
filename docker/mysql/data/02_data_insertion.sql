@@ -480,6 +480,13 @@ VALUES ("2018-05-09", "11:55", 11.8,
     WHERE mail = "julien.brechet@heig-vd.ch")
 );
 
+INSERT INTO commande (dateCommande, heureCommande, prix, personne_fk)
+VALUES ("2018-05-09", "13:50", 11.8,
+	(SELECT id
+    FROM personne
+    WHERE mail = "loan.lassalle@heig-vd.ch")
+);
+
 -- ================================================================================
 
 INSERT INTO asso_commande_tacos (commande_pk_fk, tacos_pk_fk, quantite)
@@ -534,6 +541,34 @@ VALUES (2,
 
 INSERT INTO asso_commande_frite (commande_pk_fk, frite_pk_fk, quantite)
 VALUES (2,
+	(SELECT id
+    FROM frite
+    WHERE nom = "Frites 500gr"),
+    1
+);
+
+-- ================================================================================
+
+-- ================================================================================
+
+INSERT INTO asso_commande_tacos (commande_pk_fk, tacos_pk_fk, quantite)
+VALUES (3,
+	(SELECT id
+    FROM tacos
+    WHERE nom = "Veau biggy"),
+    1
+);
+
+INSERT INTO asso_commande_boisson (commande_pk_fk, boisson_pk_fk, quantite)
+VALUES (3,
+	(SELECT id
+    FROM boisson
+    WHERE nom = "Henniez verte"),
+    2
+);
+
+INSERT INTO asso_commande_frite (commande_pk_fk, frite_pk_fk, quantite)
+VALUES (3,
 	(SELECT id
     FROM frite
     WHERE nom = "Frites 500gr"),

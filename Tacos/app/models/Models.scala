@@ -30,10 +30,6 @@ case class Ingredient(id: Long, name: String, origin: String)
 
 case class TacosIngredient(tacosId: Long, ingredientId: Long)
 
-
-
-
-
 case class OrderToShow(id: Option[Long],
                        lastName: String,
                        firstName: String,
@@ -45,5 +41,4 @@ case class OrderToShow(id: Option[Long],
                        friesQuantity: Int,
                        drinkName: String,
                        drinkQuantity: Int,
-                       price: Double
-                      )
+                       price: Double)

@@ -1,5 +1,6 @@
-@(title: String, orders:Seq[(Order, Int)] = Seq[(Order, Int)](), fries: Seq[Fry] = Seq[Fry](), drinks: Seq[Drink] = Seq[Drink](),
-        tacos: Seq[Tacos] = Seq[Tacos](), errorList: List[String] = List[String]())
+@(title: String, orders: Seq[((Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double), Int)] = Seq(),
+        fries: Seq[Fry] = Seq[Fry](), drinks: Seq[Drink] = Seq[Drink](), tacos: Seq[Tacos] = Seq[Tacos](),
+        errorList: List[String] = List[String]())
 
 @*
 * Call the `main` template with two arguments. The first
@@ -18,9 +19,14 @@
                             <h4>Commandes en cours</h4>
                         </td>
                         <td colspan="2">
-                            <ul>
+                            <ul class="list-group">
                             @for((order, index) <- orders) {
-                                <li>@{index + 1} @order.dateOrder @order.hourOrder @order.price .-</li>
+                                <li class="list-group-item active">No. @{index + 1} Date: @order._4 Heure: @order._5 Prix total: @order._12 .-</li>
+                                <ul class="list-group">
+                                    <li class="list-group-item">@order._6 @order._7</li>
+                                    <li>@order._8 @order._9</li>
+                                    <li>@order._10 @order._11</li>
+                                </ul>
                             }
                             </ul>
                         </td>

@@ -61,7 +61,7 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
             fries <- fryDAO.list()
             drinks <- drinkDAO.list()
             tacos <- tacosDAO.list()
-            orders <- orderDAO.findByIdUserPerDay(id.toLong, todayDate)
+            orders <- orderDAO.showOrdersByIdUserPerDay(id.toLong, "2018-05-09", "10")
           } yield Ok(views.html.tacos_user_order(title, orders.zipWithIndex, fries, drinks, tacos, errorList))
         },
         orderForm => {
@@ -83,7 +83,7 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
             fries <- fryDAO.list()
             drinks <- drinkDAO.list()
             tacos <- tacosDAO.list()
-            orders <- orderDAO.findByIdUserPerDay(id.toLong, todayDate, todayTime.substring(0, 2))
+            orders <- orderDAO.showOrdersByIdUserPerDay(id.toLong, "2018-05-09", "10")
           } yield Ok(views.html.tacos_user_order(title, orders.zipWithIndex, fries, drinks, tacos))
         })
     }.getOrElse {
@@ -103,7 +103,7 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
         fries <- fryDAO.list()
         drinks <- drinkDAO.list()
         tacos <- tacosDAO.list()
-        orders <- orderDAO.findByIdUserPerDay(id.toLong, todayDate, todayTime)
+        orders <- orderDAO.showOrdersByIdUserPerDay(id.toLong, "2018-05-09", "10")
       } yield Ok(views.html.tacos_user_order(title, orders.zipWithIndex, fries, drinks, tacos))
     }.getOrElse {
       Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
