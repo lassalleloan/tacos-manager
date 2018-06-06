@@ -2,7 +2,7 @@ package dao
 
 import javax.inject.{Inject, Singleton}
 
-import models.{Order, User, OrderToShow}
+import models.{Order, OrderToShow}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 
@@ -33,13 +33,20 @@ trait OrderComponent extends UserComponent {
 // configuration file.
 @Singleton
 class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
-  extends OrderComponent with UserComponent with RoleUserComponent with HasDatabaseConfigProvider[JdbcProfile] {
+  extends OrderComponent with UserComponent with RoleUserComponent with OrderTacosComponent with OrderFryComponent
+    with OrderDrinkComponent with HasDatabaseConfigProvider[JdbcProfile] {
 
   import profile.api._
 
   // Get the object-oriented list of orders directly from the query table.
   val orders = TableQuery[OrderTable]
   val users = TableQuery[UserTable]
+  val tacosOrders = TableQuery[OrderTacosTable]
+  val tacos = TableQuery[TacosTable]
+  val fryOrders = TableQuery[OrderFryTable]
+  val fries = TableQuery[FryTable]
+  val drinkOrders = TableQuery[OrderDrinkTable]
+  val drinks = TableQuery[DrinkTable]
 
   /** Retrieve the list of orders sorted by date and hour */
   def list(): Future[Seq[Order]] = {
@@ -83,5 +90,18 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(insertQuery += order)
   }
 
-
+  def showOrders(): Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
+    val query = for {
+      (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
+        .join(users).on(_.user === _.id)
+        .join(fryOrders).on(_._1.id === _.orderId)
+        .join(fries).on(_._2.fryId === _.id)
+        .join(drinkOrders).on(_._1._1._1.id === _.orderId)
+        .join(drinks).on(_._2.drinkId === _.id)
+        .join(tacosOrders).on(_._1._1._1._1._1.id === _.orderId)
+        .join(tacos).on(_._2.tacosId === _.id)
+    } yield(order.id.?, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
+      fry.name, fryOrder.quantity, drink.name, drinkOrder.quantity, order.price)
+    db.run(query.result)
+  }
 }
