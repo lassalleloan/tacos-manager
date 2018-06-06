@@ -32,26 +32,18 @@ case class TacosIngredient(tacosId: Long, ingredientId: Long)
 
 
 
-case class TacosToShow(name: String,
-                       quantity: Int,
-                       ingredientsList: List[Ingredient],
-                       saucesList: List[Sauce],
-                       meatsList: List[Meat])
 
-case class FryToShow(name: String,
-                     portion: Int,
-                     quantity: Int)
 
-case class DrinkToShow(name: String,
-                       deciliter: Int,
-                       quantity: Int)
-
-case class OrderToShow(id: Long,
+case class OrderToShow(id: Option[Long],
+                       lastName: String,
+                       firstName: String,
                        dateOrder: Option[String],
                        hourOrder: String,
-                       price: Double,
-                       user: User,
-                       tacosList: List[TacosToShow],
-                       friesList: List[FryToShow],
-                       drinksList: List[DrinkToShow]
+                       tacosName: String,
+                       tacosQuantity: Int,
+                       friesName: String,
+                       friesQuantity: Int,
+                       drinkName: String,
+                       drinkQuantity: Int,
+                       price: Double
                       )

@@ -36,12 +36,6 @@ class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: Or
       //we get all the users who made an order
       val futurUsersList = ordersList.map(x => x.map(order => (userDAO.findById(order.person), order.hourOrder)))
 
-      /*for {
-        orders <- orderDAO.list()
-        order <- orders
-        user <- userDAO.findById(order.person)
-
-      } yield (order.hourOrder, user.get.firstName, order.dateOrder)*/
 
       Future.successful(Ok(views.html.tacos_admin_show_orders(title, ordersToShowList)))
     }.getOrElse {
