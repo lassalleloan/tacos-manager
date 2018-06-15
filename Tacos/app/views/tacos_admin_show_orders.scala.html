@@ -1,5 +1,5 @@
 
-@(message: String, ordersToShowList: List[OrderToShow])
+@(message: String, ordersToShowList: Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)])
 
 @*
 * Call the `main` template with two arguments. The first
@@ -8,10 +8,18 @@
 *@
 @mainAdmin(message) {
     @defining(play.core.PlayVersion.current) { version =>
-        <h1>admin: commandes du jour</h1>
+        <h1>Commandes du jour</h1>
         <ul>
             @for(order <- ordersToShowList){
-
+                <h3>N° commande: @order._1</h3>
+                <h3>Client: @order._3 @order._2</h3>
+                <h3>Date: @order._4</h3>
+                <h3>Heure: @order._5</h3>
+                <h3>@order._7 x @order._6</h3>
+                <h3>@order._9 x @order._8</h3>
+                <h3>@order._11 x @order._10</h3>
+                <h3>Prix total: @order._12</h3>
+                <h3>------------------------------------------------------------------------------------------------------------</h3>
             }
         </ul>
     }

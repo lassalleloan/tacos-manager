@@ -26,18 +26,22 @@ class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: Or
     */
   def tacosAdminShowOrders = Action.async { implicit request =>
 
+
     request.session.get("connected").map { id =>
+      //val ordersToShowList: Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = orderDAO.showOrders()
+
 
       //will keep all the orders to display
-      val ordersToShowList: List[OrderToShow] = List()
 
       //we get all the orders in the database. We have to joins various tables to build an order that can be properly displayed (called OrdersToShow)
-      val ordersList:Future[Seq[Order]] = orderDAO.list()
+      //val ordersList:Future[Seq[Order]] = orderDAO.list()
       //we get all the users who made an order
-      val futurUsersList = ordersList.map(x => x.map(order => (userDAO.findById(order.person), order.hourOrder)))
+      //val futurUsersList = ordersList.map(x => x.map(order => (userDAO.findById(order.person), order.hourOrder)))
+      for {
+          toShow <- orderDAO.showOrders()
+      }yield Ok(views.html.tacos_admin_show_orders(title, toShow))
 
-
-      Future.successful(Ok(views.html.tacos_admin_show_orders(title, ordersToShowList)))
+      //Future.successful(Ok(views.html.tacos_admin_show_orders(title, ordersToShowList)))
     }.getOrElse {
       Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
     }
