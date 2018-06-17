@@ -90,6 +90,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(insertQuery += order)
   }
 
+  /** List all orders made. */
   def showOrders(): Future[Seq[(Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
@@ -106,6 +107,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(query.result)
   }
 
+  /** List all orders made for a specific date. */
   def showOrdersByDate(day: String): Future[Seq[(Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
@@ -122,6 +124,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(query.result)
   }
 
+  /** List all orders made for a specific user. */
   def showOrdersByIdUser(id: Long): Future[Seq[(Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
@@ -155,6 +158,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(query.result)
   }
 
+  /** List all orders made for a specific user and at a specific day. */
   def showOrdersByIdUserPerDay(id: Long, day: String, hour: String):
   Future[Seq[(Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
