@@ -1,8 +1,7 @@
 package dao
 
 import javax.inject.{Inject, Singleton}
-
-import models.{Order, OrderToShow}
+import models._
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 
@@ -94,7 +93,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   def showOrders(): Future[Seq[(Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
-          .sortBy(o => (o.dateOrder, o.hourOrder))
+        .sortBy(o => (o.dateOrder, o.hourOrder))
         .join(users).on(_.user === _.id)
         .join(fryOrders).on(_._1.id === _.orderId)
         .join(fries).on(_._2.fryId === _.id)

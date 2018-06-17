@@ -71,13 +71,15 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
               t <- tacosDAO.findById(orderForm.tacosId)
             } yield f.get.price * orderForm.fryQuantity + d.get.price * orderForm.drinkQuantity +
               t.get.price * orderForm.tacosQuantity
-            sumPrice.map { priceOrder =>
-              orderDAO.insert(Order(None, Some(todayDate), todayTime, priceOrder, id.toLong))
-            }
 
-//            orderFryDAO.insert(OrderFry(5, orderForm.fryId, orderForm.fryQuantity))
-//            orderDrinkDAO.insert(OrderDrink(5, orderForm.drinkId, orderForm.drinkQuantity))
-//            orderTacosDAO.insert(OrderTacos(5, orderForm.tacosId, orderForm.tacosQuantity))
+            sumPrice.map { priceOrder =>
+              orderDAO.insert(Order(None, Some(todayDate), todayTime, priceOrder, id.toLong)).map {
+                order =>
+                  orderFryDAO.insert(OrderFry(order.id.get, orderForm.fryId, orderForm.fryQuantity))
+                  orderDrinkDAO.insert(OrderDrink(order.id.get, orderForm.drinkId, orderForm.drinkQuantity))
+                  orderTacosDAO.insert(OrderTacos(order.id.get, orderForm.tacosId, orderForm.tacosQuantity))
+              }
+            }
           } catch {
             case _: Throwable => Future.successful(BAD_REQUEST)
           }

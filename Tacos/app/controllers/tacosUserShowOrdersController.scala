@@ -27,12 +27,13 @@ class tacosUserShowOrdersController @Inject()(cc: ControllerComponents, orderDAO
     * Call the "tacos_user_show_orders" html template.
     */
   def tacosUserShowOrders = Action.async { implicit request =>
-    val todayDate = new SimpleDateFormat("y-MM-dd").format(Calendar.getInstance().getTime)
-    val todayTime = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime)
+//    val todayDate = new SimpleDateFormat("y-MM-dd").format(Calendar.getInstance().getTime)
+//    val todayTime = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime)
 
     request.session.get("connected").map { id =>
       for {
         orders <- orderDAO.showOrdersByIdUserPerDay(id.toLong, "2018-05-09", "10")
+//        orders <- orderDAO.showOrdersByIdUserPerDay(id.toLong, todayDate, todayTime)
       } yield Ok(views.html.tacos_user_show_orders(title, orders.zipWithIndex))
     }.getOrElse {
       Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
