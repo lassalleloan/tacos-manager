@@ -1,0 +1,44 @@
+@(title: String, orders: Seq[((Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double), Int)] = Seq())
+
+@*
+* Call the `main` template with two arguments. The first
+* argument is a `String` with the title of the page, the second
+* argument is an `Html` object containing the body of the page.
+*@
+@mainUser(title) {
+    @defining(play.core.PlayVersion.current) { version =>
+    <tr class="signup-form">
+        <form action="@routes.tacosUserOrderController.order()" method="post">
+            <h2>Commandes en cours</h2>
+            <table>
+                @if(orders.nonEmpty) {
+                    <tr>
+                        <td>
+                            <ul class="list-group">
+                            @for((order, index) <- orders) {
+                                <li class="list-group-item active">No. @{
+                                    index + 1
+                                } Date: @order._4 Heure: @order._5 Prix total: @order._12 .-</li>
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        @order._6
+                                        <span class="badge badge-primary badge-pill">@order._7</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        @order._8
+                                    <span class="badge badge-primary badge-pill">@order._9</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        @order._10
+                                    <span class="badge badge-primary badge-pill">@order._11</span>
+                                    </li>
+                                </ul>
+                            }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </form>
+    }
+}

@@ -32,8 +32,13 @@ Cette page permet à l'utilisateur de se connecter:
 
 ![page de connexion](3.png)
 
+### Page pour afficher les commandes en cours
+Cette page permet à l'utilisateur de visualiser les commandes en cours:
+
+![page de commande](6.png)
+
 ### Page pour passer les commandes
-Cette page permet de passer une commande:
+Cette page permet à l'utilisateur de passer une commande:
 
 ![page de commande](4.png)
 
@@ -81,6 +86,7 @@ Différents "controllers" sont mis en place:
 <li>Et encore une autre puce</li>
 <li>tacosShowOrdersController: permet d'obtenir la liste des commandes du jour et de les afficher sur la vue correspondante.</li>
 <li>tacosUserAdminConnectionController: gère les sessions et rôles des utilisateurs/admin.</li>
+<li>tacosUserShowOrdersController: permet d'obtenir la liste des commandes en cours effectuées par le client et de les afficher sur la vue correspondante.</li>
 <li>tacosUserOrderController: gère la création d'une commande.</li>
 <li>tacosUserSignUpController: gère la création de nouveaux comptes utilisateurs.</li>
 </ul>
