@@ -93,6 +93,23 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   def showOrders(): Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
+          .sortBy(o => (o.dateOrder, o.hourOrder))
+        .join(users).on(_.user === _.id)
+        .join(fryOrders).on(_._1.id === _.orderId)
+        .join(fries).on(_._2.fryId === _.id)
+        .join(drinkOrders).on(_._1._1._1.id === _.orderId)
+        .join(drinks).on(_._2.drinkId === _.id)
+        .join(tacosOrders).on(_._1._1._1._1._1.id === _.orderId)
+        .join(tacos).on(_._2.tacosId === _.id)
+    } yield(order.id.?, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
+      fry.name, fryOrder.quantity, drink.name, drinkOrder.quantity, order.price)
+    db.run(query.result)
+  }
+
+  def showOrdersByDate(day: String): Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
+    val query = for {
+      (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
+        .filter(_.dateOrder === day).sortBy(o => o.hourOrder)
         .join(users).on(_.user === _.id)
         .join(fryOrders).on(_._1.id === _.orderId)
         .join(fries).on(_._2.fryId === _.id)
@@ -108,7 +125,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   def showOrdersByIdUser(id: Long): Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
-        .filter(_.user === id)
+        .filter(_.user === id).sortBy(o => (o.dateOrder, o.hourOrder))
         .join(users).on(_.user === _.id)
         .join(fryOrders).on(_._1.id === _.orderId)
         .join(fries).on(_._2.fryId === _.id)
