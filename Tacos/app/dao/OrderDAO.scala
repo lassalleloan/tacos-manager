@@ -90,7 +90,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(insertQuery += order)
   }
 
-  def showOrders(): Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
+  def showOrders(): Future[Seq[(Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
           .sortBy(o => (o.dateOrder, o.hourOrder))
@@ -117,12 +117,12 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
         .join(drinks).on(_._2.drinkId === _.id)
         .join(tacosOrders).on(_._1._1._1._1._1.id === _.orderId)
         .join(tacos).on(_._2.tacosId === _.id)
-    } yield(order.id.?, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
+    } yield(order.id, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
       fry.name, fryOrder.quantity, drink.name, drinkOrder.quantity, order.price)
     db.run(query.result)
   }
 
-  def showOrdersByIdUser(id: Long): Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
+  def showOrdersByIdUser(id: Long): Future[Seq[(Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
         .filter(_.user === id).sortBy(o => (o.dateOrder, o.hourOrder))
@@ -133,13 +133,13 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
         .join(drinks).on(_._2.drinkId === _.id)
         .join(tacosOrders).on(_._1._1._1._1._1.id === _.orderId)
         .join(tacos).on(_._2.tacosId === _.id)
-    } yield(order.id.?, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
+    } yield(order.id, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
       fry.name, fryOrder.quantity, drink.name, drinkOrder.quantity, order.price)
     db.run(query.result)
   }
 
   def showOrdersByIdUserPerDay(id: Long, day: String):
-  Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
+  Future[Seq[(Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
         .filter(_.user === id).filter(_.dateOrder === day).sortBy(o => o.hourOrder)
@@ -150,13 +150,13 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
         .join(drinks).on(_._2.drinkId === _.id)
         .join(tacosOrders).on(_._1._1._1._1._1.id === _.orderId)
         .join(tacos).on(_._2.tacosId === _.id)
-    } yield(order.id.?, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
+    } yield(order.id, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
       fry.name, fryOrder.quantity, drink.name, drinkOrder.quantity, order.price)
     db.run(query.result)
   }
 
   def showOrdersByIdUserPerDay(id: Long, day: String, hour: String):
-  Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
+  Future[Seq[(Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = {
     val query = for {
       (((((((order, user), fryOrder), fry), drinkOrder), drink), tacosOrder), tacos) <- orders
         .filter(_.user === id).filter(_.dateOrder === day).filter(_.hourOrder >= hour)
@@ -167,7 +167,7 @@ class OrderDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
         .join(drinks).on(_._2.drinkId === _.id)
         .join(tacosOrders).on(_._1._1._1._1._1.id === _.orderId)
         .join(tacos).on(_._2.tacosId === _.id)
-    } yield(order.id.?, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
+    } yield(order.id, user.lastName, user.firstName, order.dateOrder.?, order.hourOrder, tacos.name, tacosOrder.quantity,
       fry.name, fryOrder.quantity, drink.name, drinkOrder.quantity, order.price)
     db.run(query.result)
   }

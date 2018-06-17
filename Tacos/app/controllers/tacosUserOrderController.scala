@@ -5,7 +5,7 @@ import java.util.Calendar
 
 import dao._
 import javax.inject.{Inject, Singleton}
-import models.{Order, OrderDrink, OrderFry}
+import models.{Order, OrderDrink, OrderFry, OrderTacos}
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc.{AbstractController, ControllerComponents}
@@ -61,8 +61,7 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
             fries <- fryDAO.list()
             drinks <- drinkDAO.list()
             tacos <- tacosDAO.list()
-            orders <- orderDAO.showOrdersByIdUserPerDay(id.toLong, "2018-05-09", "10")
-          } yield Ok(views.html.tacos_user_order(title, orders.zipWithIndex, fries, drinks, tacos, errorList))
+          } yield Ok(views.html.tacos_user_order(title, fries, drinks, tacos, errorList))
         },
         orderForm => {
           try {
@@ -70,21 +69,21 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
               f <- fryDAO.findById(orderForm.fryId)
               d <- drinkDAO.findById(orderForm.drinkId)
               t <- tacosDAO.findById(orderForm.tacosId)
-            } yield f.get.price + d.get.price + t.get.price
-
-            sumPrice.map {x =>
-              orderDAO.insert(Order(None, Some(todayDate), todayTime, x, id.toLong))
+            } yield f.get.price * orderForm.fryQuantity + d.get.price * orderForm.drinkQuantity +
+              t.get.price * orderForm.tacosQuantity
+            sumPrice.map { priceOrder =>
+              orderDAO.insert(Order(None, Some(todayDate), todayTime, priceOrder, id.toLong))
             }
+
+//            orderFryDAO.insert(OrderFry(5, orderForm.fryId, orderForm.fryQuantity))
+//            orderDrinkDAO.insert(OrderDrink(5, orderForm.drinkId, orderForm.drinkQuantity))
+//            orderTacosDAO.insert(OrderTacos(5, orderForm.tacosId, orderForm.tacosQuantity))
           } catch {
             case _: Throwable => Future.successful(BAD_REQUEST)
           }
 
-          for {
-            fries <- fryDAO.list()
-            drinks <- drinkDAO.list()
-            tacos <- tacosDAO.list()
-            orders <- orderDAO.showOrdersByIdUserPerDay(id.toLong, "2018-05-09", "10")
-          } yield Ok(views.html.tacos_user_order(title, orders.zipWithIndex, fries, drinks, tacos))
+          Future.successful(Redirect("/orders", MOVED_PERMANENTLY)
+            .withSession("connected" -> id.toString))
         })
     }.getOrElse {
       Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
@@ -95,16 +94,12 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
     * Call the "tacos_user_order" html template.
     */
   def tacosUserOrder = Action.async { implicit request =>
-    val todayDate = new SimpleDateFormat("y-MM-dd").format(Calendar.getInstance().getTime)
-    val todayTime = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime)
-
     request.session.get("connected").map { id =>
       for {
         fries <- fryDAO.list()
         drinks <- drinkDAO.list()
         tacos <- tacosDAO.list()
-        orders <- orderDAO.showOrdersByIdUserPerDay(id.toLong, "2018-05-09", "10")
-      } yield Ok(views.html.tacos_user_order(title, orders.zipWithIndex, fries, drinks, tacos))
+      } yield Ok(views.html.tacos_user_order(title, fries, drinks, tacos))
     }.getOrElse {
       Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
     }

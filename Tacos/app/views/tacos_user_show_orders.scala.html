@@ -1,10 +1,5 @@
 @(title: String, orders: Seq[((Long, String, String, Option[String], String, String, Int, String, Int, String, Int, Double), Int)] = Seq())
 
-@*
-* Call the `main` template with two arguments. The first
-* argument is a `String` with the title of the page, the second
-* argument is an `Html` object containing the body of the page.
-*@
 @mainUser(title) {
     @defining(play.core.PlayVersion.current) { version =>
     <tr class="signup-form">
