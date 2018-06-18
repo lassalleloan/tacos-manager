@@ -50,6 +50,9 @@ VALUES ("Salade", "France");
 -- ================================================================================
 
 INSERT INTO tacos (nom, prix)
+VALUES ("Aucun tacos", 0.0);
+
+INSERT INTO tacos (nom, prix)
 VALUES ("Poulet samouraï", 7.0);
 
 INSERT INTO tacos (nom, prix)
@@ -391,6 +394,9 @@ VALUES (
 -- ================================================================================
 
 INSERT INTO boisson (nom, decilitres, prix)
+VALUES ("Aucune boisson", 0, 0.0);
+
+INSERT INTO boisson (nom, decilitres, prix)
 VALUES ("Coca Zéro 5DL", 5, 3.0);
 
 INSERT INTO boisson (nom, decilitres, prix)
@@ -415,6 +421,9 @@ INSERT INTO boisson (nom, decilitres, prix)
 VALUES ("Valser", 3.3, 1.8);
 
 -- ================================================================================
+
+INSERT INTO frite (nom, portion, prix)
+VALUES ("Aucune frite", 0, 0.0);
 
 INSERT INTO frite (nom, portion, prix)
 VALUES ("Frites 250gr", 250, 1.0);
