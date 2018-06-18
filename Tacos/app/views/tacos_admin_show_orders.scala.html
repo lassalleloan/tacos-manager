@@ -8,19 +8,44 @@
 *@
 @mainAdmin(message) {
     @defining(play.core.PlayVersion.current) { version =>
-        <h1>Commandes du jour</h1>
-        <ul>
-            @for(order <- ordersToShowList){
-                <h3>N° commande: @order._1</h3>
-                <h3>Client: @order._3 @order._2</h3>
-                <h3>Date: @order._4</h3>
-                <h3>Heure: @order._5</h3>
-                <h3>@order._7 x @order._6</h3>
-                <h3>@order._9 x @order._8</h3>
-                <h3>@order._11 x @order._10</h3>
-                <h3>Prix total: @order._12</h3>
-                <h3>------------------------------------------------------------------------------------------------------------</h3>
-            }
-        </ul>
+        <h1>Commandes à préparer:</h1>
+
+        <table>
+        @if(ordersToShowList.nonEmpty) {
+            <tr>
+                <td>
+                    <ul class="list-group">
+                    @for(order <- ordersToShowList) {
+                        <li class="list-group-item active">@{
+                        }  No. @order._1 </li>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Client: @order._3 @order._2
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Heure: @order._5 Date: @order._4
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @order._6
+                                <span class="badge badge-primary badge-pill">@order._7 x</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @order._8
+                                <span class="badge badge-primary badge-pill">@order._9 x </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @order._10
+                                <span class="badge badge-primary badge-pill">@order._11 x </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Prix total: @order._12
+                            </li>
+                        </ul>
+                    }
+                    </ul>
+                </td>
+            </tr>
+        }
+        </table>
     }
 }

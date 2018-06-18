@@ -1,6 +1,7 @@
 package controllers
 
 //import dao.{CoursesDAO, StudentsDAO}
+import java.util.Calendar
 import javax.inject._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,22 +27,27 @@ class tacosShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: Or
     */
   def tacosAdminShowOrders = Action.async { implicit request =>
 
+    //we get the actual date with the good format
+    val cal = Calendar.getInstance()
+    val day =cal.get(Calendar.DAY_OF_MONTH )
+    val year =cal.get(Calendar.YEAR )
+    val month =cal.get(Calendar.MONTH )+ 1
+    val yearString = year.toString
+    var dayString = day.toString
+    var monthString = month.toString
+    if(monthString.size == 1){
+      monthString = "0"+monthString
+    }
+    if(dayString.size == 1){
+      dayString = "0"+dayString
+    }
+    val today = yearString+"-"+monthString+"-"+dayString
+
 
     request.session.get("connected").map { id =>
-      //val ordersToShowList: Future[Seq[(Option[Long], String, String, Option[String], String, String, Int, String, Int, String, Int, Double)]] = orderDAO.showOrders()
-
-
-      //will keep all the orders to display
-
-      //we get all the orders in the database. We have to joins various tables to build an order that can be properly displayed (called OrdersToShow)
-      //val ordersList:Future[Seq[Order]] = orderDAO.list()
-      //we get all the users who made an order
-      //val futurUsersList = ordersList.map(x => x.map(order => (userDAO.findById(order.person), order.hourOrder)))
       for {
-          toShow <- orderDAO.showOrders()
+          toShow <- orderDAO.showOrdersByDate(today)
       }yield Ok(views.html.tacos_admin_show_orders(title, toShow))
-
-      //Future.successful(Ok(views.html.tacos_admin_show_orders(title, ordersToShowList)))
     }.getOrElse {
       Future.successful(Unauthorized("Il faut vous connecter d'abord pour accéder à cette page."))
     }
