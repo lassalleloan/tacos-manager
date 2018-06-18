@@ -55,7 +55,7 @@ class OrderFryDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   /** Insert a new orderFry, then return it. */
   def insert(orderFry: OrderFry): Future[OrderFry] = {
     // val insertQuery = orderFries returning orderFries.map(x => (x.orderId, x.fryId)) into ((orderFry, doubleId) => orderFry.copy(doubleId._1, doubleId._2))
-    val insertQuery = orderFries returning orderFries.map(x => (x.orderId, x.fryId)) into ((orderFry, doubleId) => orderFry.copy(doubleId._1, doubleId._2))
+    val insertQuery = orderFries returning orderFries.map(x => (x.orderId, x.fryId, x.quantity)) into ((orderFry, triple) => orderFry.copy(orderId = triple._1, fryId = triple._2, quantity = triple._3))
     db.run(insertQuery += OrderFry(orderFry.orderId, orderFry.fryId, orderFry.quantity))
   }
 }
