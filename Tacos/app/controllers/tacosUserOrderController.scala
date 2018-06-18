@@ -26,7 +26,7 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
 
   val title = "Intergalactic TACOS Food"
 
-  // Declare a case class that will be used in the new connection's form
+  // Declare a case class that will be used in the new order's form
   case class OrderRequest(pickUpTime: String, fryId: Long, fryQuantity: Int, drinkId: Long, drinkQuantity: Int, tacosId: Long, tacosQuantity: Int)
 
   // Create a new connection form mapping, in order to map the values of the HTML form with a Scala Form
@@ -34,9 +34,9 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
   def orderForm = Form(
     mapping(
       "pickUpTime" -> text
-          .verifying("L'horaire de récupération est incorrecte", t => t.length == 5
-            && t.substring(0, 2) >= "08" && t.substring(0, 2) <= "18"
-            && t.substring(3, 5) >= "00" && t.substring(3, 5) <= "50"),
+        .verifying("L'horaire de récupération est incorrecte", t => t.length == 5
+          && t.substring(0, 2) >= "08" && t.substring(0, 2) <= "18"
+          && t.substring(3, 5) >= "00" && t.substring(3, 5) <= "50"),
       "fryId" -> longNumber
         .verifying("Le choix des frites incorrect", _ >= 0),
       "fryQuantity" -> number
@@ -78,9 +78,9 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
             sumPrice.map { priceOrder =>
               orderDAO.insert(Order(None, Some(todayDate), orderForm.pickUpTime, priceOrder, id.toLong)).map {
                 order =>
-                  orderFryDAO.insert(OrderFry(order.id.get, orderForm.fryId, orderForm.fryQuantity))
-                  orderDrinkDAO.insert(OrderDrink(order.id.get, orderForm.drinkId, orderForm.drinkQuantity))
-                  orderTacosDAO.insert(OrderTacos(order.id.get, orderForm.tacosId, orderForm.tacosQuantity))
+                  orderFryDAO.insert(OrderFry((order.id.get, orderForm.fryId), orderForm.fryQuantity))
+                  orderDrinkDAO.insert(OrderDrink((order.id.get, orderForm.drinkId), orderForm.drinkQuantity))
+                  orderTacosDAO.insert(OrderTacos((order.id.get, orderForm.tacosId), orderForm.tacosQuantity))
               }
             }
           } catch {
@@ -114,9 +114,10 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
     val todayHour = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime).toInt
     val todayMinutes = new SimpleDateFormat("mm").format(Calendar.getInstance().getTime).toInt
 
-    for {
-      i <- todayHour to 18 if i >= 8
-      j <- 0 to 50 if j > todayMinutes && j % 10 == 0
-    } yield i.toString.reverse.padTo(2, "0").reverse.mkString + ":" + j.toString.reverse.padTo(2, "0").reverse.mkString
+    (for {
+      i <- 8 to 18 if i >= 8
+      j <- 0 to 50 if j % 10 == 0
+    } yield i.toString.reverse.padTo(2, "0").reverse.mkString + ":" + j.toString.reverse.padTo(2, "0").reverse.mkString)
+      .filter(_ >= todayHour + ":" + todayMinutes)
   }
 }

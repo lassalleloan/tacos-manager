@@ -24,7 +24,7 @@ class tacosUserSignUpController @Inject()(cc: ControllerComponents, userDAO: Use
   val regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,}"
   val roleUserClient = 2
 
-  // Declare a case class that will be used in the new connection's form
+  // Declare a case class that will be used in the new sign up's form
   case class SignUpRequest(firstName: String, lastName: String, phone: String, email: String, password: String, passwordConfirmation: String)
 
   // Create a new connection form mapping, in order to map the values of the HTML form with a Scala Form

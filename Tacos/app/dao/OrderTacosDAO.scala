@@ -16,12 +16,13 @@ trait OrderTacosComponent extends OrderComponent with TacosComponent {
 
   // This class convert the database's "asso_commande_tacos" table in a object-oriented entity: the OrderTacos model.
   class OrderTacosTable(tag: Tag) extends Table[OrderTacos](tag, "asso_commande_tacos") {
-    def orderId = column[Long]("commande_pk_fk", O.PrimaryKey) // Primary key
-    def tacosId = column[Long]("tacos_pk_fk", O.PrimaryKey) // Primary key
+    def orderId = column[Long]("commande_pk_fk") // Primary key
+    def tacosId = column[Long]("tacos_pk_fk") // Primary key
     def quantity = column[Int]("quantite")
+    def pk = primaryKey("pk_commande_frite", (orderId, tacosId))
 
     // Map the attributes with the model.
-    def * = (orderId, tacosId, quantity) <> (OrderTacos.tupled, OrderTacos.unapply)
+    def * = ((orderId, tacosId), quantity) <> (OrderTacos.tupled, OrderTacos.unapply)
   }
 }
 
@@ -54,7 +55,7 @@ class OrderTacosDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
   /** Insert a new orderTacos, then return it. */
   def insert(myOrderTacos: OrderTacos): Future[OrderTacos] = {
-    val insertQuery = orderTacos returning orderTacos.map(x => (x.orderId, x.tacosId)) into ((orderTacos, doubleId) => orderTacos.copy(doubleId._1, doubleId._2))
+    val insertQuery = orderTacos returning orderTacos.map(x => (x.orderId, x.tacosId)) into ((orderTacos, id) => orderTacos.copy(id))
     db.run(insertQuery += myOrderTacos)
   }
 }

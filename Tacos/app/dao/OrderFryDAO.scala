@@ -16,12 +16,13 @@ trait OrderFryComponent extends OrderComponent with FryComponent {
 
   // This class convert the database's "asso_commande_frite" table in a object-oriented entity: the OrderFry model.
   class OrderFryTable(tag: Tag) extends Table[OrderFry](tag, "asso_commande_frite") {
-    def orderId = column[Long]("commande_pk_fk", O.PrimaryKey) // Primary key
-    def fryId = column[Long]("frite_pk_fk", O.PrimaryKey) // Primary key
+    def orderId = column[Long]("commande_pk_fk") // Primary key
+    def fryId = column[Long]("frite_pk_fk") // Primary key
     def quantity = column[Int]("quantite")
+    def pk = primaryKey("pk_commande_frite", (orderId, fryId))
 
     // Map the attributes with the model.
-    def * = (orderId, fryId, quantity) <> (OrderFry.tupled, OrderFry.unapply)
+    def * = ((orderId, fryId), quantity) <> (OrderFry.tupled, OrderFry.unapply)
   }
 }
 
@@ -54,8 +55,7 @@ class OrderFryDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 
   /** Insert a new orderFry, then return it. */
   def insert(orderFry: OrderFry): Future[OrderFry] = {
-    // val insertQuery = orderFries returning orderFries.map(x => (x.orderId, x.fryId)) into ((orderFry, doubleId) => orderFry.copy(doubleId._1, doubleId._2))
-    val insertQuery = orderFries returning orderFries.map(x => (x.orderId, x.fryId, x.quantity)) into ((orderFry, triple) => orderFry.copy(orderId = triple._1, fryId = triple._2, quantity = triple._3))
-    db.run(insertQuery += OrderFry(orderFry.orderId, orderFry.fryId, orderFry.quantity))
+    val insertQuery = orderFries returning orderFries.map(x => (x.orderId, x.fryId)) into ((orderFry, id) => orderFry.copy(id))
+    db.run(insertQuery += orderFry)
   }
 }

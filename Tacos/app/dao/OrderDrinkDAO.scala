@@ -16,12 +16,13 @@ trait OrderDrinkComponent extends OrderComponent with DrinkComponent {
 
   // This class convert the database's "asso_commande_boisson" table in a object-oriented entity: the OrderDrink model.
   class OrderDrinkTable(tag: Tag) extends Table[OrderDrink](tag, "asso_commande_boisson") {
-    def orderId = column[Long]("commande_pk_fk", O.PrimaryKey) // Primary key
-    def drinkId = column[Long]("boisson_pk_fk", O.PrimaryKey) // Primary key
+    def orderId = column[Long]("commande_pk_fk") // Primary key
+    def drinkId = column[Long]("boisson_pk_fk") // Primary key
     def quantity = column[Int]("quantite")
+    def pk = primaryKey("pk_commande_boisson", (orderId, drinkId))
 
     // Map the attributes with the model.
-    def * = (orderId, drinkId, quantity) <> (OrderDrink.tupled, OrderDrink.unapply)
+    def * = ((orderId, drinkId), quantity) <> (OrderDrink.tupled, OrderDrink.unapply)
   }
 }
 
@@ -54,7 +55,7 @@ class OrderDrinkDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
   /** Insert a new orderDrink, then return it. */
   def insert(orderDrink: OrderDrink): Future[OrderDrink] = {
-    val insertQuery = orderDrinks returning orderDrinks.map(x => (x.orderId, x.drinkId)) into ((orderDrink, doubleId) => orderDrink.copy(doubleId._1, doubleId._2))
+    val insertQuery = orderDrinks returning orderDrinks.map(x => (x.orderId, x.drinkId)) into ((orderDrink, id) => orderDrink.copy(id))
     db.run(insertQuery += orderDrink)
   }
 }

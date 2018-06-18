@@ -15,7 +15,7 @@ import scala.concurrent.Future
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
-  * application's order page.
+  * application's show orders page.
   */
 @Singleton
 class tacosUserShowOrdersController @Inject()(cc: ControllerComponents, orderDAO: OrderDAO)
