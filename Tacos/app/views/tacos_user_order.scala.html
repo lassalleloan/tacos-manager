@@ -1,4 +1,4 @@
-@(title: String, fries: Seq[Fry] = Seq[Fry](), drinks: Seq[Drink] = Seq[Drink](), tacos: Seq[Tacos] = Seq[Tacos](),
+@(title: String, pickUpTimes: Seq[String], fries: Seq[Fry] = Seq[Fry](), drinks: Seq[Drink] = Seq[Drink](), tacos: Seq[Tacos] = Seq[Tacos](),
         errorList: List[String] = List[String]())
 
 @mainUser(title) {
@@ -16,6 +16,19 @@
                         </td>
                     </tr>
                 }
+
+                <tr>
+                    <td>
+                        <h4>Horaire de récupération</h4>
+                    </td>
+                    <td colspan="2">
+                        <select name="pickUpTime" size="1">
+                        @for(time <- pickUpTimes) {
+                            <option value="@time">@time</option>
+                        }
+                        </select>
+                    </td>
+                </tr>
 
                 @if(fries.nonEmpty) {
                     <tr>
