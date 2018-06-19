@@ -35,7 +35,7 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
     mapping(
       "pickUpTime" -> text
         .verifying("L'horaire de récupération est incorrecte", t => t.length == 5
-          && t.substring(0, 2) >= "08" && t.substring(0, 2) <= "18"
+          && t.substring(0, 2) >= "11" && t.substring(0, 2) <= "13"
           && t.substring(3, 5) >= "00" && t.substring(3, 5) <= "50"),
       "fryId" -> longNumber
         .verifying("Le choix des frites incorrect", _ >= 0),
@@ -115,7 +115,7 @@ class tacosUserOrderController @Inject()(cc: ControllerComponents, orderDAO: Ord
     val todayMinutes = new SimpleDateFormat("mm").format(Calendar.getInstance().getTime).toInt
 
     (for {
-      i <- 8 to 18 if i >= 8
+      i <- 8 to 13 if i >= 11
       j <- 0 to 50 if j % 10 == 0
     } yield i.toString.reverse.padTo(2, "0").reverse.mkString + ":" + j.toString.reverse.padTo(2, "0").reverse.mkString)
       .filter(_ >= todayHour + ":" + todayMinutes)
