@@ -20,32 +20,32 @@ Les actions possibles sont séparées en plusieurs pages, chacune ayant sont rô
 ### Page d'accueil
 Cette page sert à afficher une description de l'application et, comme toutes les autres pages, à fournir un menu de navigation pour effectuer les différentes requêtes:
 
-![page d'accueil](images/home_page.png)
+![page d'accueil](readme_images/home_page.png)
 
 ### Page d'inscription
 Cette page permet à l'utilisateur de s'inscrire pour pouvoir commander:
 
-![page d'inscription](images/sign_up_page.png)
+![page d'inscription](readme_images/sign_up_page.png)
 
 ### Page de connexion
 Cette page permet à l'utilisateur de se connecter:
 
-![page de connexion](images/login_page.png)
+![page de connexion](readme_images/login_page.png)
 
 ### Page pour afficher les commandes en cours
 Cette page permet à l'utilisateur de visualiser les commandes en cours:
 
-![page de commande](images/user_show_orders.png)
+![page de commande](readme_images/user_show_orders.png)
 
 ### Page pour passer les commandes
 Cette page permet à l'utilisateur de passer une commande:
 
-![page de commande](images/user_order.png)
+![page de commande](readme_images/user_order.png)
 
 ### Page pour consulter les commandes
 Cette page, destinée à l'administrateur, permet de consulter les commandes à préparer:
 
-![page de consultation des commandes](images/admin_show_orders.png)
+![page de consultation des commandes](readme_images/admin_show_orders.png)
 
 ## Implémentation
 
@@ -54,7 +54,7 @@ Le projet est développé en scala avec la librairie Slick pour les requêtes à
 ### Base de données
 Voici le schéma de la base de données:
 
-![schema](images/schema_relationnel.png)
+![schema](readme_images/schema_relationnel.png)
 
 On représente une commande comme étant l'ensemble des tacos choisis en lien avec des frites, boissons et la personne qui fait la commande. Le prix et l'heure de service sont aussi pris en compte.
 
@@ -63,7 +63,7 @@ Les sauces, viandes et ingrédients qui constituent un tacos sont ici à titre i
 ### Routage
 Voici les possibilités de navigation qui sont offertes par l'application:
 
-![routes](images/routes.png)
+![routes](readme_images/routes.png)
 
 Remarque: les autres pages non mentionnées sont inaccessibles et protégées grâce au framework Play. Bien entendu, il a fallu implémenter les notions de session et rôle utilisateur.
 
@@ -71,7 +71,7 @@ Remarque: les autres pages non mentionnées sont inaccessibles et protégées gr
 
 Voici par exemple, comment on peut rediriger les simples utilisateurs ou l'administrateur sur les pages adéquates après avoir vérifié que les credentials correspondent à un compte existant:
 
-![checkConnection](images/check_connetion.png)
+![checkConnection](readme_images/check_connetion.png)
 
 Remarque: c'est à ce moment que l'on crée une session pour un utilisateur authentifié.
 
@@ -95,11 +95,11 @@ Différents "controllers" sont mis en place:
 Après avoir créé un modèle qui représente les différents objets à manipuler, il faut pouvoir établir un lien entre ceux-ci et les valeurs que vont retourner les DAO lors des requêtes faites à la BD.
 Si l'on prend par exemple le DAO des gérant les commandes (OrderDAO), on doit mapper les valeurs de la manière suivante:
 
-![DAO1](images/order_dao_1.png)
+![DAO1](readme_images/order_dao_1.png)
 
 Ensuite, il est possible de créer une requête pour la BD et d'en récupérer la réponse. Voici comment on peut par exemple (Slick) obtenir toutes les commandes effectuées en ne gardant que les éléments utiles pour le restaurateur (nom client, prix, produits sélectionnés, quantités, heure de service):
 
-![DAO2](images/order_dao_2.png)
+![DAO2](readme_images/order_dao_2.png)
 
 Remarque: il faut donc disposer d'un DAO pour chaque table du schéma relationnel pour représenter chaque entité.
 
