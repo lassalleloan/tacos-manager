@@ -1,4 +1,4 @@
-# Projet SCALA-gestionnaire de tacos
+# Gestionnaire de Tacos :: A Scala Play project
 
 
 ## Description
