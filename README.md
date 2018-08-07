@@ -1,4 +1,4 @@
-# Gestionnaire de Tacos :: A Scala Play project
+# Tacos manager :: A Scala Play project
 
 Autheurs: Loan Lassalle, Julien Brêchet et Adrien Marco
 ***
