@@ -1,5 +1,7 @@
 # Gestionnaire de Tacos :: A Scala Play project
 
+Autheurs: Loan Lassalle, Julien Brêchet et Adrien Marco
+***
 
 ## Description
 Dans le cadre du cours de SCALA, le projet de gestionnaire de tacos consiste à créer une application web et sa base de données afin de mettre en pratique les connaissances acquises en cours.
@@ -107,6 +109,3 @@ Remarque: il faut donc disposer d'un DAO pour chaque table du schéma relationne
 L'application est fonctionnelle, bien qu'il reste encore la page de management à implémenter (point optionnel selon le cahier des charges).
 
 Il est à noter que toutes les fonctionnalités offertes par les DAO ne sont pas utilisées. Ces dernières sont à disposition dans la possibilité d'une éventuelle amélioration de l'application.
-
-## Auteurs
-Loan Lassalle, Julien  Brêchet et Adrien Marco.
