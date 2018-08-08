@@ -1,111 +1,105 @@
-# Tacos manager :: A Scala Play project
+# Tacos Manager :: A Scala Play project
 
-Autheurs: Loan Lassalle, Julien Brêchet et Adrien Marco
+Authors: Loan Lassalle, Julien Brêchet and Adrien Marco
 ***
 
 ## Description
-Dans le cadre du cours de SCALA, le projet de gestionnaire de tacos consiste à créer une application web et sa base de données afin de mettre en pratique les connaissances acquises en cours.
-L’application permet d’optimiser au mieux l’organisation de la préparation des menus pour les clients s’annonçant via une interface de réservation. Ce concept sert à diminuer l’attente sur place pendant la préparation de son repas.
+As part of the Scala course, the Tacos Manager project consists of creating a web application and its database in order to put into practice the knowledge acquired in class.
+The application makes it possible to optimize the organization of the preparation of the menus for the customers announcing themselves via an interface of reservation. This concept is used to reduce waiting time on site during meal preparation.
 
-Objectifs de l’application :
--  Gestion de comptes utilisateurs (clients) et d’un compte administrateur (restaurateur).
-
--  Page principale mettant en avant les différentes offres (tout le monde peut la consulter).
--  Un utilisateur peut se créer un compte utilisateur ou se connecter via un compte pour effectuer une commande (seulement si connecté). Une commande est composée de tacos, de boissons et de frites et elle peut se faire dans les 24h et pas avant. Les repas sont uniquement servis entre 11h et 14h et le paiement se fait sur place.
--  Un administrateur (compte créé en dur) peut afficher l’ensemble des commandes pour la journée et créer, mettre à jour et supprimer les tacos, les boissons et les frites. Une commande spécifie l’heure à laquelle elle doit être prête et son contenu ainsi que le client qui la commande. Les coordonnées de l’utilisateur peuvent éventuellement être utilisées pour avertir ce dernier en cas d’imprévu (numéro de téléphone, adresse mail).
--  Optionnel : ajout d’une interface de gestion pour l’administrateur (stock, nouveaux tacos, …).
-
+Objectives of the application:
+- Management of user accounts (clients) and an administrator account (restaurateur)
+- Main page highlighting the different offers (anyone can consult it)
+- A user can create a user account or log in via an account to place an order (only if logged in). An order consists of tacos, drinks and chips and can be made within 24 hours and not before. Meals are only served between 11am and 2pm and payment is made on site.
+- An administrator (hard-coded account) can view all orders for the day and create, update and delete tacos, drinks and chips. An order specifies the time at which it must be ready and its contents as well as the customer who orders it. The user's contact details may be used to notify the user in the event of unforeseen circumstances (telephone number, e-mail address).
+- Optional: addition of a management interface for the administrator (stock, new tacos, ...).
 
 ## Interface
-Les actions possibles sont séparées en plusieurs pages, chacune ayant sont rôle.
+The possible actions are separated into several pages, each having its role.
 
 ### Page d'accueil
-Cette page sert à afficher une description de l'application et, comme toutes les autres pages, à fournir un menu de navigation pour effectuer les différentes requêtes:
+This page is used to display a description of the application and, like all other pages, to provide a navigation menu to perform the various queries:
 
-![page d'accueil](readme_images/home_page.png)
+![home page](readme_images/home_page.png)
 
-### Page d'inscription
-Cette page permet à l'utilisateur de s'inscrire pour pouvoir commander:
+### Signup page
+This page allows the user to register to order:
 
-![page d'inscription](readme_images/sign_up_page.png)
+![signup page](readme_images/sign_up_page.png)
 
-### Page de connexion
-Cette page permet à l'utilisateur de se connecter:
+### Login page
+This page allows the user to login:
 
-![page de connexion](readme_images/login_page.png)
+![login page](readme_images/login_page.png)
 
-### Page pour afficher les commandes en cours
-Cette page permet à l'utilisateur de visualiser les commandes en cours:
+### Page to display current orders
+This page allows the user to view current orders:
 
-![page de commande](readme_images/user_show_orders.png)
+![order page](readme_images/user_show_orders.png)
 
-### Page pour passer les commandes
-Cette page permet à l'utilisateur de passer une commande:
+### Order page
+This page allows the user to place an order:
 
-![page de commande](readme_images/user_order.png)
+![order page](readme_images/user_order.png)
 
-### Page pour consulter les commandes
-Cette page, destinée à l'administrateur, permet de consulter les commandes à préparer:
+### Order viewing page
+This page, intended for the administrator, allows to consult the orders to prepare:
 
-![page de consultation des commandes](readme_images/admin_show_orders.png)
+![order viewing page](readme_images/admin_show_orders.png)
 
-## Implémentation
+## Implementation
 
-Le projet est développé en scala avec la librairie Slick pour les requêtes à la base de données et le framework Play pour l'aspect web de l'application.
+The project is developed in Scala with the Slick library for database queries and the Play framework for the web aspect of the application.
 
-### Base de données
-Voici le schéma de la base de données:
+### Database
+This is the relational model of the database:
 
-![schema](readme_images/schema_relationnel.png)
+![relational model](readme_images/schema_relationnel.png)
 
-On représente une commande comme étant l'ensemble des tacos choisis en lien avec des frites, boissons et la personne qui fait la commande. Le prix et l'heure de service sont aussi pris en compte.
+An order is represented as the set of tacos selected in connection with fries, drinks and the person placing the order. Price and hour of service are also taken into account.
 
-Les sauces, viandes et ingrédients qui constituent un tacos sont ici à titre informatif car l'application ne permet pas au client de personnaliser lui même la constitution d'un tacos. Il doit choisir parmis les compositions existantes correspondant aux noms des tacos de la liste.
+The sauces, meats and ingredients which constitute a taco are here for information purposes because the application does not allow the customer to personalize himself the constitution of a taco. He must choose among the existing compositions corresponding to the names of the tacos on the list.
 
-### Routage
-Voici les possibilités de navigation qui sont offertes par l'application:
+### Routing
+Here are the navigation possibilities offered by the application:
 
 ![routes](readme_images/routes.png)
 
-Remarque: les autres pages non mentionnées sont inaccessibles et protégées grâce au framework Play. Bien entendu, il a fallu implémenter les notions de session et rôle utilisateur.
+Note: the other pages not mentioned are inaccessible and protected thanks to the Play framework. Of course, it was necessary to implement the notions of session and user role.
 
-### Sessions et rôles utilisateurs
+### Sessions and user roles
 
-Voici par exemple, comment on peut rediriger les simples utilisateurs ou l'administrateur sur les pages adéquates après avoir vérifié que les credentials correspondent à un compte existant:
+For example, here is how you can redirect simple users or the administrator to the appropriate pages after checking that the credentials match an existing account:
 
 ![checkConnection](readme_images/check_connetion.png)
 
-Remarque: c'est à ce moment que l'on crée une session pour un utilisateur authentifié.
+Note: This is where you create a session for an authenticated user.
 
-
-### Les controllers
-
-Différents "controllers" sont mis en place:
+### Controllers
 
 <ul>
-<li>tacosHomeController: gère le point d'entrée dans l'application en renvoyant la vue de la page d'accueil.</li>
-<li>tacosManagementController: sensé mettre à disposition une interface de gestion des produits pour le restaurateur mais cet aspect optionel n'a pas été implémenté.</li>
-<li>Et encore une autre puce</li>
-<li>tacosShowOrdersController: permet d'obtenir la liste des commandes du jour et de les afficher sur la vue correspondante.</li>
-<li>tacosUserAdminConnectionController: gère les sessions et rôles des utilisateurs/admin.</li>
-<li>tacosUserShowOrdersController: permet d'obtenir la liste des commandes en cours effectuées par le client et de les afficher sur la vue correspondante.</li>
-<li>tacosUserOrderController: gère la création d'une commande.</li>
-<li>tacosUserSignUpController: gère la création de nouveaux comptes utilisateurs.</li>
+<li>tacosHomeController: manages the entry point in the application by returning the view from the home page</li>
+<li>tacosManagementController: supposed to provide a product management interface for the restorer but this optional aspect has not been implemented</li>
+<li>tacosShowOrdersController: allows to get the list of the commands of the day and to display them on the corresponding view</li>
+<li>tacosUserAdminConnectionController: manages sessions and roles of users/admin</li>
+<li>tacosUserShowOrdersController: allows to obtain the list of the current orders made by the client and to display them on the corresponding view</li>
+<li>tacosUserOrderController: manages the creation of a command</li>
+<li>tacosUserSignUpController: manages the creation of new user accounts</li>
 </ul>
 
-### Les DAO
-Après avoir créé un modèle qui représente les différents objets à manipuler, il faut pouvoir établir un lien entre ceux-ci et les valeurs que vont retourner les DAO lors des requêtes faites à la BD.
-Si l'on prend par exemple le DAO des gérant les commandes (OrderDAO), on doit mapper les valeurs de la manière suivante:
+### DAOs
+After having created a model which represents the various objects to be manipulated, it is necessary to be able to establish a link between these and the values which the DAO will return during the requests made to the database.
+If we take for example the CAD of the command handlers (OrderDAO), we must map the values as follows:
 
 ![DAO1](readme_images/order_dao_1.png)
 
-Ensuite, il est possible de créer une requête pour la BD et d'en récupérer la réponse. Voici comment on peut par exemple (Slick) obtenir toutes les commandes effectuées en ne gardant que les éléments utiles pour le restaurateur (nom client, prix, produits sélectionnés, quantités, heure de service):
+Then, it is possible to create a query for the database and retrieve the answer. Here is how you can for example (Slick) get all orders made keeping only the items useful for the restaurateur (customer name, price, selected products, quantities, service time):
 
 ![DAO2](readme_images/order_dao_2.png)
 
-Remarque: il faut donc disposer d'un DAO pour chaque table du schéma relationnel pour représenter chaque entité.
+Note: it is therefore necessary to have a DAO for each table of the relational schema to represent each entity.
 
 ## Conclusion
-L'application est fonctionnelle, bien qu'il reste encore la page de management à implémenter (point optionnel selon le cahier des charges).
+The application is functional, although there is still the management page to implement (optional point according to the specifications).
 
-Il est à noter que toutes les fonctionnalités offertes par les DAO ne sont pas utilisées. Ces dernières sont à disposition dans la possibilité d'une éventuelle amélioration de l'application.
+It should be noted that not all the functionalities offered by the DAO are used. These are available in the possibility of a possible improvement of the application.
