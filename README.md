@@ -20,32 +20,44 @@ The possible actions are separated into several pages, each having its role.
 ### Page d'accueil
 This page is used to display a description of the application and, like all other pages, to provide a navigation menu to perform the various queries:
 
-![home page](readme_images/home_page.png)
+<p align="center">
+  <img src="./readme_images/home_page.png" alt="Home page">
+</p>
 
 ### Signup page
 This page allows the user to register to order:
 
-![signup page](readme_images/sign_up_page.png)
+<p align="center">
+  <img src="./readme_images/sign_up_page.png" alt="Signup page">
+</p>
 
 ### Login page
 This page allows the user to login:
 
-![login page](readme_images/login_page.png)
+<p align="center">
+  <img src="./readme_images/login_page.png" alt="Login page">
+</p>
 
 ### Page to display current orders
 This page allows the user to view current orders:
 
-![order page](readme_images/user_show_orders.png)
+<p align="center">
+  <img src="./readme_images/user_show_orders.png" alt="Order page">
+</p>
 
 ### Order page
 This page allows the user to place an order:
 
-![order page](readme_images/user_order.png)
+<p align="center">
+  <img src="./readme_images/user_order.png" alt="Order page">
+</p>
 
 ### Order viewing page
 This page, intended for the administrator, allows to consult the orders to prepare:
 
-![order viewing page](readme_images/admin_show_orders.png)
+<p align="center">
+  <img src="./readme_images/admin_show_orders.png" alt="Order viewing page">
+</p>
 
 ## Implementation
 
@@ -54,7 +66,9 @@ The project is developed in Scala with the Slick library for database queries an
 ### Database
 This is the relational model of the database:
 
-![relational model](readme_images/schema_relationnel.png)
+<p align="center">
+  <img src="./readme_images/schema_relationnel.png" alt="Relational model">
+</p>
 
 An order is represented as the set of tacos selected in connection with fries, drinks and the person placing the order. Price and hour of service are also taken into account.
 
@@ -63,7 +77,9 @@ The sauces, meats and ingredients which constitute a taco are here for informati
 ### Routing
 Here are the navigation possibilities offered by the application:
 
-![routes](readme_images/routes.png)
+<p align="center">
+  <img src="./readme_images/routes.png" alt="Routes">
+</p>
 
 Note: the other pages not mentioned are inaccessible and protected thanks to the Play framework. Of course, it was necessary to implement the notions of session and user role.
 
@@ -71,7 +87,9 @@ Note: the other pages not mentioned are inaccessible and protected thanks to the
 
 For example, here is how you can redirect simple users or the administrator to the appropriate pages after checking that the credentials match an existing account:
 
-![checkConnection](readme_images/check_connetion.png)
+<p align="center">
+  <img src="./readme_images/check_connetion.png" alt="Check connections">
+</p>
 
 Note: This is where you create a session for an authenticated user.
 
@@ -91,11 +109,15 @@ Note: This is where you create a session for an authenticated user.
 After having created a model which represents the various objects to be manipulated, it is necessary to be able to establish a link between these and the values which the DAO will return during the requests made to the database.
 If we take for example the CAD of the command handlers (OrderDAO), we must map the values as follows:
 
-![DAO1](readme_images/order_dao_1.png)
+<p align="center">
+  <img src="./readme_images/order_dao_1.png" alt="Order DAO">
+</p>
 
 Then, it is possible to create a query for the database and retrieve the answer. Here is how you can for example (Slick) get all orders made keeping only the items useful for the restaurateur (customer name, price, selected products, quantities, service time):
 
-![DAO2](readme_images/order_dao_2.png)
+<p align="center">
+  <img src="./readme_images/order_dao_2.png" alt="Order DAO">
+</p>
 
 Note: it is therefore necessary to have a DAO for each table of the relational schema to represent each entity.
 
